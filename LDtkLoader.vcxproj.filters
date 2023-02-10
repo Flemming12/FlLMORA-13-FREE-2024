@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Projects\TheTemplate\lib\LDtkLoader-master\src\DataTypes.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Projects\TheTemplate\lib\LDtkLoader-master\src\Entity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Projects\TheTemplate\lib\LDtkLoader-master\src\EntityDef.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Projects\TheTemplate\lib\LDtkLoader-master\src\Enum.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Projects\TheTemplate\lib\LDtkLoader-master\src\FieldsContainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Projects\TheTemplate\lib\LDtkLoader-master\src\Layer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Projects\TheTemplate\lib\LDtkLoader-master\src\LayerDef.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Projects\TheTemplate\lib\LDtkLoader-master\src\Level.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Projects\TheTemplate\lib\LDtkLoader-master\src\Project.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Projects\TheTemplate\lib\LDtkLoader-master\src\TagsContainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Projects\TheTemplate\lib\LDtkLoader-master\src\Tile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Projects\TheTemplate\lib\LDtkLoader-master\src\Tileset.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Projects\TheTemplate\lib\LDtkLoader-master\src\Utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Projects\TheTemplate\lib\LDtkLoader-master\src\World.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Projects\TheTemplate\lib\LDtkLoader-master\include\LDtkLoader\DataTypes.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Projects\TheTemplate\lib\LDtkLoader-master\include\LDtkLoader\Entity.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Projects\TheTemplate\lib\LDtkLoader-master\include\LDtkLoader\Enum.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Projects\TheTemplate\lib\LDtkLoader-master\include\LDtkLoader\Field.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Projects\TheTemplate\lib\LDtkLoader-master\include\LDtkLoader\Layer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Projects\TheTemplate\lib\LDtkLoader-master\include\LDtkLoader\Level.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Projects\TheTemplate\lib\LDtkLoader-master\include\LDtkLoader\Project.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Projects\TheTemplate\lib\LDtkLoader-master\include\LDtkLoader\Tile.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Projects\TheTemplate\lib\LDtkLoader-master\include\LDtkLoader\Tileset.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Projects\TheTemplate\lib\LDtkLoader-master\include\LDtkLoader\Utils.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Projects\TheTemplate\lib\LDtkLoader-master\include\LDtkLoader\World.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Projects\TheTemplate\lib\LDtkLoader-master\include\LDtkLoader\containers\FieldsContainer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Projects\TheTemplate\lib\LDtkLoader-master\include\LDtkLoader\containers\TagsContainer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Projects\TheTemplate\lib\LDtkLoader-master\include\LDtkLoader\defs\EntityDef.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Projects\TheTemplate\lib\LDtkLoader-master\include\LDtkLoader\defs\FieldDef.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Projects\TheTemplate\lib\LDtkLoader-master\include\LDtkLoader\defs\LayerDef.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Projects\TheTemplate\lib\LDtkLoader-master\include\LDtkLoader\thirdparty\json_fwd.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Projects\TheTemplate\lib\LDtkLoader-master\include\LDtkLoader\thirdparty\optional.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Projects\TheTemplate\lib\LDtkLoader-master\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{1907390E-872D-31FA-9C58-84EFF57C8CFA}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{7BFA3787-0465-3C42-94FD-B84F7164947E}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
