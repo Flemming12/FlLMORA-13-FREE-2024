@@ -14,7 +14,6 @@ namespace Tmpl8
 	// -----------------------------------------------------------
 	void Game::Init()
 	{
-		
 	}
 	
 	// -----------------------------------------------------------
@@ -24,12 +23,8 @@ namespace Tmpl8
 	{
 	}
 
-	ldtk::Project ldtk_project;
-	ldtk_project.loadFromFile("map/ldtk/testmap.ldtk");
-	//const auto& world = ldtk_project.getWorld("testmap");
-	//const auto& level = world.getLevel("Level_0");
-	//const auto& entities = level.getLayer("Entities");
-	//const auto& collisions = entities.getEntitiesByName("Collision");
+	
+
 
 	Sprite background(new Surface("map/ldtk/testmap/simplified/Level_0/IntGrid.png"), 1);
 	int backgroundWidth = background.GetWidth();
@@ -45,10 +40,15 @@ namespace Tmpl8
 
 	void Game::Tick(float deltaTime)
 	{
+		//ldtk::Project ldtk_project;
+		//ldtk_project.loadFromFile("map/ldtk/testmap.ldtk");
+		//const auto& world = ldtk_project.getWorld("testmap");
+		//const auto& level = world.getLevel("Level_0");
+		//const auto& entities = level.getLayer("Entities");
+		//const auto& collisions = entities.getEntitiesByName("Collision");
 		//for (auto& collision : collisions)
 		//{
 		//	auto& e = collision.get();
-		//	printf("%i\n", e);
 		//}
 		screen->Clear(0);
 		background.DrawScaled(0, (512 - scaleHeight), scaleWidth, scaleHeight, screen);
