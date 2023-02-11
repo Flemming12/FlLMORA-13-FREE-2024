@@ -1,4 +1,0 @@
-C:/Projects/TheTemplate/CMakeFiles/LDtkLoader.dir
-C:/Projects/TheTemplate/CMakeFiles/INSTALL.dir
-C:/Projects/TheTemplate/CMakeFiles/ALL_BUILD.dir
-C:/Projects/TheTemplate/CMakeFiles/ZERO_CHECK.dir
