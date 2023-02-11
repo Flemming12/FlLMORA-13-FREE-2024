@@ -21,9 +21,6 @@ namespace Tmpl8
 	{
 	}
 
-	
-
-
 	Sprite background(new Surface("map/ldtk/testmap/simplified/Level_0/IntGrid.png"), 1);
 	int backgroundWidth = background.GetWidth();
 	int backgroundHeight = background.GetHeight();
