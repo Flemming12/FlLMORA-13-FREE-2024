@@ -6,6 +6,7 @@
 #include <cassert>
 #include <cstring>
 #include "FreeImage.h"
+#include <cmath>
 
 namespace Tmpl8 {
 
@@ -212,6 +213,18 @@ void Surface::Bar( int x1, int y1, int x2, int y2, Pixel c )
 	{
 		for ( int x = 0; x <= (x2 - x1); x++ ) a[x] = c;
 		a += m_Pitch;
+	}
+}
+
+void Surface::DrawCircle(int cx, int cy, int cr, Pixel c)
+{
+	for (int x = cx - cr; x <= cx + cr; x++)
+	{
+		for (int y = cy - cr; y <= cy + cr; y++)
+		{
+			int dist = (int)std::sqrt((x - cx) * (x - cx) + (y - cy) * (y - cy));
+			if (dist == cr) Plot(x, y, c);
+		}
 	}
 }
 
