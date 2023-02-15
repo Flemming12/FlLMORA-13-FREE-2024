@@ -1,1 +1,2 @@
 bool CollisionCircleAABB(float c_x, float c_y, float c_r, float min_x, float min_y, float max_x, float max_y);
+bool CheckSide(float cx, float cy, float cr, float min_x, float min_y, float max_x, float max_y);

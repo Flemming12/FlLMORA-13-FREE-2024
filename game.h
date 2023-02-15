@@ -1,8 +1,12 @@
 #pragma once
 #include <cstdio> //printf
+#include "LDtkLoader/Project.hpp"
 
 namespace Tmpl8 {
-
+class CollisionClass {
+	public:
+		std::vector<std::reference_wrapper<ldtk::Entity>> collision;
+	};
 class Surface;
 class Game
 {
@@ -24,6 +28,8 @@ private:
 	Surface* screen;
 	int mouseX;
 	int mouseY;
+	CollisionClass collisions;
+	ldtk::Project ldtk_project;
 };
 
 }; // namespace Tmpl8

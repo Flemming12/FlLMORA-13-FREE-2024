@@ -3,25 +3,23 @@
 #include "template.h"
 #include "windows.h"
 #include <cstdio> //printf
-#include "LDtkLoader/Project.hpp"
 #include "collision.h"
 #include <typeinfo>
 
 namespace Tmpl8
 {
-
+	
 
 	// -----------------------------------------------------------
 	// Initialize the application
 	// -----------------------------------------------------------
 	void Game::Init()
 	{
-		ldtk::Project ldtk_project;
 		ldtk_project.loadFromFile("map/ldtk/testmap.ldtk");
 		const auto& world = ldtk_project.getWorld("");
 		const auto& level1 = world.getLevel("Level_0");
 		const auto& entities = level1.getLayer("Entities");
-		const auto& collisions = entities.getEntitiesByName("Collision");
+		collisions.collision = entities.getEntitiesByName("Collision");
 	}
 
 	// -----------------------------------------------------------
@@ -31,7 +29,7 @@ namespace Tmpl8
 	{
 	}
 
-	int camerax = 0;
+	int camerax = 128;
 	int cameray = 0;
 
 	Sprite background(new Surface("map/ldtk/testmap/simplified/Level_0/IntGrid.png"), 1);
@@ -44,12 +42,12 @@ namespace Tmpl8
 	Sprite player(new Surface("assets/slime.png"), 1);
 	int playerWidth = player.GetWidth();
 	int playerHeigth = player.GetHeight();
-	float playerx = (3 * 8 * scale - 8 * scale - camerax) + (player.GetWidth() * scale / 4);
-	float playery = ((512 - (3 * 8 * scale)) + cameray) + (player.GetHeight() * scale / 4);
+	float playerx = (5 * 8 * scale - 8 * scale - camerax) + (player.GetWidth() * scale / 4);
+	float playery = ((512 - (4 * 8 * scale)) + cameray) + (player.GetHeight() * scale / 4);
 	int playerr = scale * 4;
 
-	float speedX = 0;
-	float speedY = 0; //-3 * -1 *scale;
+	float speedX = 3;
+	float speedY = -1 * -1;
 
     // -----------------------------------------------------------
     // Main application tick function
@@ -62,14 +60,14 @@ namespace Tmpl8
 		screen->Clear(255);
 		background.DrawScaled(0 - camerax, (512 - scaleHeight + cameray), scaleWidth, scaleHeight, screen);
 
-		//playerx += speedX;
-		//playery += speedY;
+		playerx += speedX;
+		playery += speedY;
 
 		//printf("x: %i", playerx);
 		//printf(" y: %i\n", playerx);
 		
 		//Bounding box level
-		for (auto& collision : collisions)
+		for (auto& collision : collisions.collision)
 		{
 			auto& e = collision.get();
 			auto& pos = e.getPosition();
@@ -92,10 +90,20 @@ namespace Tmpl8
 			int cx = playerx;
 			int cy = playery;
 			int cr = playerr;
-			bool hasCollision = CollisionCircleAABB(cx, cy, playerr, min_x, min_y, max_x, max_y);
+			bool hasCollision= CollisionCircleAABB(cx, cy, playerr, min_x, min_y, max_x, max_y);
+			bool floor = CheckSide(cx, cy, playerr, min_x, min_y, max_x, max_y);
 			if (hasCollision)
 			{
 				color = (34 << 16) + (255 << 8);
+				if (floor) 
+				{
+					speedX = -speedX;
+					
+				}
+				else
+				{
+					speedY = -speedY;
+				}				
 			}
 			screen->Box(min_x, min_y, max_x, max_y, color);
 		}
