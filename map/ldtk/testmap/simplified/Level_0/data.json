@@ -6,7 +6,12 @@
 	"width": 288,
 	"height": 288,
 	"bgColor": "#696A79",
-	"neighbourLevels": [],
+	"neighbourLevels": [
+		{
+			"levelIid": "db019330-9f30-11ed-af37-4db7699cfafb",
+			"dir": "e"
+		}
+	],
 	"customFields" : {},
 	"layers": [
 		"IntGrid.png"

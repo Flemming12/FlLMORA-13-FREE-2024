@@ -1,0 +1,36 @@
+{
+	"identifier": "Level_1",
+	"uniqueIdentifer": "db019330-9f30-11ed-af37-4db7699cfafb",
+	"x": 288,
+	"y": -288,
+	"width": 592,
+	"height": 288,
+	"bgColor": "#696A79",
+	"neighbourLevels": [
+		{
+			"levelIid": "0e81e9a0-9f30-11ed-bcf5-4b0afd5be23f",
+			"dir": "w"
+		}
+	],
+	"customFields" : {},
+	"layers": [
+		"IntGrid.png"
+	],
+	"entities": {
+		"Collision": [
+			{
+				"id": "Collision",
+				"iid": "0c2d0200-9f30-11ed-af37-6f95bdc134b6",
+				"layer": "Entities",
+				"x": 0,
+				"y": 272,
+				"width": 592,
+				"height": 16,
+				"color": 12470831,
+				"customFields": {
+					"Sticky": false
+				}
+			}
+		]
+	}
+}

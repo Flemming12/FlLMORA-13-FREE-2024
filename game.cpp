@@ -17,7 +17,7 @@ namespace Tmpl8
 	{
 		ldtk_project.loadFromFile("map/ldtk/testmap.ldtk");
 		const auto& world = ldtk_project.getWorld("");
-		const auto& level1 = world.getLevel("Level_0");
+		const auto& level1 = world.getLevel("Level_1");
 		const auto& entities = level1.getLayer("Entities");
 		collisions.collision = entities.getEntitiesByName("Collision");
 	}
@@ -29,10 +29,10 @@ namespace Tmpl8
 	{
 	}
 
-	int camerax = 128;
-	int cameray = 0;
+	float camerax = 0;
+	float cameray = 0;
 
-	Sprite background(new Surface("map/ldtk/testmap/simplified/Level_0/IntGrid.png"), 1);
+	Sprite background(new Surface("map/ldtk/testmap/simplified/Level_1/IntGrid.png"), 1);
 	int backgroundWidth = background.GetWidth();
 	int backgroundHeight = background.GetHeight();
 	float scale = 4;
@@ -42,12 +42,18 @@ namespace Tmpl8
 	Sprite player(new Surface("assets/slime.png"), 1);
 	int playerWidth = player.GetWidth();
 	int playerHeigth = player.GetHeight();
-	float playerx = (5 * 8 * scale - 8 * scale - camerax) + (player.GetWidth() * scale / 4);
-	float playery = ((512 - (4 * 8 * scale)) + cameray) + (player.GetHeight() * scale / 4);
+	float playerx = (4 * 8 * scale - 8 * scale - camerax) + (player.GetWidth() * scale / 4);
+	float playery = ((512 - (8 * 8 * scale)) + cameray) + (player.GetHeight() * scale / 4);
 	int playerr = scale * 4;
 
-	float speedX = 3;
-	float speedY = -1 * -1;
+	float speedX = 0.2 * scale;
+	float speedY = -0.5 * scale;
+	float gravity = 0.3;
+	float elasticity = 0.8; // coefficient of restitution
+	int bounceCount = 0;
+	int maxBounces = 8; // maximum number of bounces
+	float restThreshold = 3; // threshold velocity for resting
+
 
     // -----------------------------------------------------------
     // Main application tick function
@@ -55,17 +61,17 @@ namespace Tmpl8
 
 	void Game::Tick(float deltaTime)
 	{
-		//camerax = mouseX;
-		//cameray = mouseY;
+		//printf("%f\n", speedY);
+		//camerax = playerx;
 		screen->Clear(255);
 		background.DrawScaled(0 - camerax, (512 - scaleHeight + cameray), scaleWidth, scaleHeight, screen);
 
-		playerx += speedX;
-		playery += speedY;
 
 		//printf("x: %i", playerx);
-		//printf(" y: %i\n", playerx);
-		
+		//printf("%f\n", speedY);
+		playerx += speedX;
+		playery += speedY;
+		speedY += gravity;
 		//Bounding box level
 		for (auto& collision : collisions.collision)
 		{
@@ -87,31 +93,51 @@ namespace Tmpl8
 			int min_y = ((pos.y * scale - offset) + cameray);
 			int max_x = (((pos.x + size.x) * scale) - camerax);
 			int max_y = (((pos.y + size.y) * scale - offset) + cameray);
-			int cx = playerx;
-			int cy = playery;
+			int cx = playerx - camerax;
+			int cy = playery + cameray;
 			int cr = playerr;
-			bool hasCollision= CollisionCircleAABB(cx, cy, playerr, min_x, min_y, max_x, max_y);
-			bool floor = CheckSide(cx, cy, playerr, min_x, min_y, max_x, max_y);
+			bool hasCollision;
+			bool floor;
+			CollisionCircleAABB(cx, cy, playerr, min_x, min_y, max_x, max_y, &hasCollision, &floor);
 			if (hasCollision)
 			{
-				color = (34 << 16) + (255 << 8);
-				if (floor) 
+				if (floor)
 				{
 					speedX = -speedX;
-					
+					speedY = speedY;
+
+					color = (255 << 16) + (238 << 8);
 				}
 				else
 				{
-					speedY = -speedY;
-				}				
+					
+					speedX = speedX;
+					speedY = -speedY * elasticity;
+					playery = playery + speedY;
+					color = (255 << 8) + 13;
+					printf("%f\n", speedY);
+					if (abs(speedY) < restThreshold) {
+						// Ball has come to rest
+						speedY = 0;
+						speedX = 0;
+					}
+					//bounceCount++;
+					//if (bounceCount >= maxBounces) {
+					//	// Ball has reached maximum number of bounces
+					//	speedY = 0;
+					//}
+				}
+							
 			}
 			screen->Box(min_x, min_y, max_x, max_y, color);
 		}
-		player.DrawScaled((playerx - (player.GetWidth() * scale / 4)), (playery - (player.GetHeight() * scale / 4)), (8 * scale), (8 * scale), screen);
-		int cx = playerx;
-		int cy = playery;
+
+
+		player.DrawScaled((playerx - (player.GetWidth() * scale / 4)) - camerax, (playery - (player.GetHeight() * scale / 4)) + cameray, (8 * scale), (8 * scale), screen);
+		int cx = playerx - camerax;
+		int cy = playery + cameray;
 		int playercolor = (234 << 16) + (255);
 		screen->DrawCircle(cx, cy, playerr, playercolor);
-		printf("");
+		//printf("");
 	}
 };
