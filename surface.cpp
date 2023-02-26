@@ -185,6 +185,18 @@ void Surface::Line( float x1, float y1, float x2, float y2, Pixel c )
 	}
 }
 
+void Surface::ThickLine(float x1, float y1, float x2, float y2, float size, Pixel c)
+{
+	for (int i = -size; i <= size; i++) {
+		for (int j = -size; j <= size; j++) {
+			Line(x1 + i, y1 + j, x2 + i, y2 + i, c);
+			Line(x1 + i, y1 + j, x2 + i, y2 + j, c);
+			Line(x1 + i, y1 + j, x2 + j, y2 + i, c);
+			Line(x1 + i, y1 + j, x2 + j, y2 + j, c);
+		}
+	}
+}
+
 void Surface::Plot( int x, int y, Pixel c )
 { 
 	if ((x >= 0) && (y >= 0) && (x < m_Width) && (y < m_Height)) m_Buffer[x + y * m_Pitch] = c;
