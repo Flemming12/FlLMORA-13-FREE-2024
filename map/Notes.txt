@@ -12,3 +12,11 @@ Links for tilemap:
 https://egordorichev.itch.io/adve
 
 mapeditor.org - tiled
+
+SIDE COLLISION CHECK
+
+with velocity
+greatest velocity first
+if ball is moving to the right right wall can never be hit.....
+
+~ jeremiah
