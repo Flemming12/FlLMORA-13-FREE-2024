@@ -1,4 +1,4 @@
-#include "game.h"
+﻿#include "game.h"
 #include "surface.h"
 #include "template.h"
 #include "windows.h"
@@ -46,13 +46,14 @@ namespace Tmpl8
 	float playery = ((512 - (8 * 8 * scale)) + cameray) + (player.GetHeight() * scale / 4);
 	int playerr = scale * 4;
 
-	float speedX = 2 * scale;
-	float speedY = -1 * scale;
+	float speedX = 1 * scale;
+	float speedY = -2 * scale;
 	float gravity = 0.3;
 	float elasticity = 0.8; // coefficient of restitution
 	int bounceCount = 0;
 	int maxBounces = 8; // maximum number of bounces
 	float restThreshold = 2.5; // threshold velocity for resting
+	int test = 0;
 
 	bool isGrounded = false;
 
@@ -64,10 +65,16 @@ namespace Tmpl8
 	{
 		screen->Clear(255);
 		background.DrawScaled(0 - camerax, (512 - scaleHeight + cameray), scaleWidth, scaleHeight, screen);
+		//screen->Line(test, 0, test, 512, (234 << 16) + (255));
+				
+		camerax = playerx - 400;
+		cameray = -playery + 256;
 
-		playerx += speedX;
-		playery += speedY;
-		speedY += gravity;
+		if (isGrounded == false) {
+			playerx += speedX;
+			playery += speedY;
+			speedY += gravity;
+		}
 		for (auto& collision : collisions.collision)
 		{
 			auto& e = collision.get();
@@ -92,11 +99,12 @@ namespace Tmpl8
 			int cy = playery + cameray;
 			int cr = playerr;
 			bool hasCollision;
-			bool floor;
+			int floor;
 			CollisionCircleAABB(cx, cy, playerr, min_x, min_y, max_x, max_y, &hasCollision, &floor);
 			if (hasCollision)
 			{
-				if (floor)
+				// 1 = O| -- 2 = |O -- 3 = ō -- 4 = ⍜
+				if (floor == 1 || floor == 2)
 				{
 					speedX = -speedX;
 					speedY = speedY;
@@ -105,7 +113,7 @@ namespace Tmpl8
 				}
 				else
 				{
-					playery = playery - speedY;
+					playery = min_y - cameray - player.GetHeight() * scale / 4 + 1; // + player.GetHeight()
 					if (isSticky == 1) {
 						isGrounded = true;
 						speedX = 0;
@@ -125,23 +133,13 @@ namespace Tmpl8
 		int cx = playerx - camerax;
 		int cy = playery + cameray;
 		if (isGrounded) {
-			int distance_AB = sqrt(pow(mouseX - cx, 2) + pow(mouseY - cy, 2));
-
-			// Calculate the slope of the line AB
-			//if (mouseX - cx != 0) {
-			//	slope_AB = (mouseY - cy) / (mouseX - cx);
-			//}
-			//else {
-			//	slope_AB = INFINITY;
-			//}
-
-			// Calculate the coordinates of point C
-			int arrowX = cx + ((15 * scale) / distance_AB) * (mouseX - cx);
-			int arrowY = cy + ((15 * scale) / distance_AB) * (mouseY - cy);
-			//int distance = (cx - mouseX) * (cx - mouseX) + (cy - mouseY) * (cy - mouseY);
-			//if (distance < (140 * 140)) {
-			screen->ThickLine(cx, cy, arrowX, arrowY, 3, 255 << 16);
-			//}
+			int distance = sqrt((mouseX - cx) * (mouseX - cx)  + (mouseY - cy) * (mouseY - cy));
+			
+			if (distance > (4 * scale)) {
+				int arrowX = cx + ((15 * scale) / distance) * (mouseX - cx);
+				int arrowY = cy + ((15 * scale) / distance) * (mouseY - cy);
+				screen->ThickLine(cx, cy, arrowX, arrowY, (0.75 * scale), 255 << 16);
+			}
 		}
 		player.DrawScaled((playerx - (player.GetWidth() * scale / 4)) - camerax, (playery - (player.GetHeight() * scale / 4)) + cameray, (8 * scale), (8 * scale), screen);
 		int playercolor = (234 << 16) + (255);

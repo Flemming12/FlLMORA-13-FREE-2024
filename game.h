@@ -15,8 +15,8 @@ public:
 	void Init();
 	void Shutdown();
 	void Tick( float deltaTime );
-	void MouseUp( int button ) { /* implement if you want to detect mouse button presses */ }
-	void MouseDown( int button ) { /* implement if you want to detect mouse button presses */ }
+	void MouseUp(int button) { mouseUp = button;/* implement if you want to detect mouse button presses */ }
+	void MouseDown(int button) { mouseDown = button;/* implement if you want to detect mouse button presses */ }
 	void MouseMove(int x, int y) 
 	{ 
 		mouseX = x;
@@ -28,6 +28,8 @@ private:
 	Surface* screen;
 	int mouseX;
 	int mouseY;
+	int mouseUp;
+	int mouseDown;
 	CollisionClass collisions;
 	ldtk::Project ldtk_project;
 };
