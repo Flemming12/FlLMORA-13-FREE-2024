@@ -42,12 +42,12 @@ namespace Tmpl8
 	Sprite player(new Surface("assets/slime.png"), 1);
 	int playerWidth = player.GetWidth();
 	int playerHeigth = player.GetHeight();
-	float playerx = (16 * 8 * scale - 8 * scale - camerax) + (player.GetWidth() * scale / 4);
-	float playery = ((512 - (4 * 8 * scale)) + cameray) + (player.GetHeight() * scale / 4);
+	float playerx = (3 * 8 * scale - 8 * scale - camerax) + (player.GetWidth() * scale / 4);
+	float playery = ((512 - (3 * 8 * scale)) + cameray) + (player.GetHeight() * scale / 4);
 	int playerr = scale * 4;
 
-	float speedX = 2 * scale;
-	float speedY = -3 * scale;
+	float speedX = 0 * scale;
+	float speedY = 0 * scale;
 	float gravity = 0.3;
 	float elasticity = 0.8; // coefficient of restitution
 	int bounceCount = 0;
@@ -141,7 +141,8 @@ namespace Tmpl8
 					speedX = speedX;
 					speedY = -speedY * elasticity;
 					color = (255 << 8) + 13;
-					if (abs(speedY) < restThreshold) {
+					bounceCount++;
+					if (abs(speedY) < restThreshold && bounceCount > 8) {
 						speedY = 0;
 						speedX = 0;
 					}
@@ -160,8 +161,8 @@ namespace Tmpl8
 				if (click) {
 					float launchX = arrowX - cx;
 					float launchY = arrowY - cy;
-					launchX = launchX/5;
-					launchY = launchY/5;
+					launchX = launchX/4.5;
+					launchY = launchY/4.5;
 					printf("%f ", launchX);
 					printf("%f\n", launchY);
 					speedX = launchX;
@@ -170,6 +171,7 @@ namespace Tmpl8
 					
 					click = false;
 					mouseDown = false;
+					bounceCount = 0;
 				}
 			}
 		}
