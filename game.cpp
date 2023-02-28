@@ -42,20 +42,20 @@ namespace Tmpl8
 	Sprite player(new Surface("assets/slime.png"), 1);
 	int playerWidth = player.GetWidth();
 	int playerHeigth = player.GetHeight();
-	float playerx = (4 * 8 * scale - 8 * scale - camerax) + (player.GetWidth() * scale / 4);
-	float playery = ((512 - (8 * 8 * scale)) + cameray) + (player.GetHeight() * scale / 4);
+	float playerx = (16 * 8 * scale - 8 * scale - camerax) + (player.GetWidth() * scale / 4);
+	float playery = ((512 - (4 * 8 * scale)) + cameray) + (player.GetHeight() * scale / 4);
 	int playerr = scale * 4;
 
-	float speedX = 1 * scale;
-	float speedY = -2 * scale;
+	float speedX = 2 * scale;
+	float speedY = -3 * scale;
 	float gravity = 0.3;
 	float elasticity = 0.8; // coefficient of restitution
 	int bounceCount = 0;
 	int maxBounces = 8; // maximum number of bounces
 	float restThreshold = 2.5; // threshold velocity for resting
-	int test = 0;
 
 	bool isGrounded = false;
+	bool click = false;
 
     // -----------------------------------------------------------
     // Main application tick function
@@ -69,7 +69,16 @@ namespace Tmpl8
 				
 		camerax = playerx - 400;
 		cameray = -playery + 256;
-
+		if (mouseDown) {
+			click = true;
+			mouseUp = false;
+		}
+		if (mouseUp) {
+			mouseDown = false;
+		}
+		//printf("%i ", mouseDown);
+		//printf("%i\n", mouseUp);
+		
 		if (isGrounded == false) {
 			playerx += speedX;
 			playery += speedY;
@@ -108,12 +117,22 @@ namespace Tmpl8
 				{
 					speedX = -speedX;
 					speedY = speedY;
-
+					if (isSticky == 1) {
+						isGrounded = true;
+						speedX = 0;
+						speedY = 0;
+					}
 					color = (255 << 16) + (238 << 8);
 				}
 				else
 				{
-					playery = min_y - cameray - player.GetHeight() * scale / 4 + 1; // + player.GetHeight()
+					if (floor == 4) {
+						playery = max_y - cameray + player.GetHeight() * scale / 4 + 1; // + player.GetHeight()
+
+					}
+					else if (floor == 3) {
+						playery = min_y - cameray - player.GetHeight() * scale / 4 + 1; // + player.GetHeight()
+					}
 					if (isSticky == 1) {
 						isGrounded = true;
 						speedX = 0;
@@ -134,11 +153,24 @@ namespace Tmpl8
 		int cy = playery + cameray;
 		if (isGrounded) {
 			int distance = sqrt((mouseX - cx) * (mouseX - cx)  + (mouseY - cy) * (mouseY - cy));
-			
 			if (distance > (4 * scale)) {
 				int arrowX = cx + ((15 * scale) / distance) * (mouseX - cx);
 				int arrowY = cy + ((15 * scale) / distance) * (mouseY - cy);
 				screen->ThickLine(cx, cy, arrowX, arrowY, (0.75 * scale), 255 << 16);
+				if (click) {
+					float launchX = arrowX - cx;
+					float launchY = arrowY - cy;
+					launchX = launchX/5;
+					launchY = launchY/5;
+					printf("%f ", launchX);
+					printf("%f\n", launchY);
+					speedX = launchX;
+					speedY = launchY;
+					isGrounded = false;
+					
+					click = false;
+					mouseDown = false;
+				}
 			}
 		}
 		player.DrawScaled((playerx - (player.GetWidth() * scale / 4)) - camerax, (playery - (player.GetHeight() * scale / 4)) + cameray, (8 * scale), (8 * scale), screen);
