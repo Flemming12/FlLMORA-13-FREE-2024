@@ -56,6 +56,19 @@
 				"customFields": {
 					"Sticky": false
 				}
+			},
+			{
+				"id": "Collision",
+				"iid": "fd9998c0-9f30-11ed-adcf-4781adc2528b",
+				"layer": "Entities",
+				"x": 0,
+				"y": 152,
+				"width": 152,
+				"height": 8,
+				"color": 12470831,
+				"customFields": {
+					"Sticky": false
+				}
 			}
 		]
 	}

@@ -52,10 +52,12 @@ namespace Tmpl8
 	float elasticity = 0.8; // coefficient of restitution
 	int bounceCount = 0;
 	int maxBounces = 8; // maximum number of bounces
-	float restThreshold = 2.5; // threshold velocity for resting
+	float restThreshold = 3.2; // threshold velocity for resting
 
 	bool isGrounded = false;
 	bool click = false;
+
+	int biggest = 0;
 
     // -----------------------------------------------------------
     // Main application tick function
@@ -109,12 +111,23 @@ namespace Tmpl8
 			int cr = playerr;
 			bool hasCollision;
 			int floor;
-			CollisionCircleAABB(cx, cy, playerr, min_x, min_y, max_x, max_y, &hasCollision, &floor);
+			CollisionCircleAABB(cx, cy, playerr, min_x, min_y, max_x, max_y, &hasCollision, &floor, speedX, speedY);
 			if (hasCollision)
 			{
-				// 1 = O| -- 2 = |O -- 3 = ō -- 4 = ⍜
+				// 1 = O| max_x -- 2 = |O min_x -- 3 = ō max_y -- 4 = ⍜ min_y
+				if (floor != -858993460) {
+					//printf("%i\n", floor);
+				}
 				if (floor == 1 || floor == 2)
 				{
+					if (floor == 1) {
+						playerx = max_x + camerax + player.GetWidth(); // + player.GetHeight()
+					}
+					else if (floor == 2) {
+						playerx = min_x + camerax - player.GetWidth(); // + player.GetHeight()
+					}
+					
+
 					speedX = -speedX;
 					speedY = speedY;
 					if (isSticky == 1) {
@@ -124,30 +137,39 @@ namespace Tmpl8
 					}
 					color = (255 << 16) + (238 << 8);
 				}
-				else
+				else if (floor == 3 || floor == 4)
 				{
 					if (floor == 4) {
-						playery = max_y - cameray + player.GetHeight() * scale / 4 + 1; // + player.GetHeight()
-
+						playery = min_y - cameray - player.GetHeight(); // + player.GetHeight()
 					}
 					else if (floor == 3) {
-						playery = min_y - cameray - player.GetHeight() * scale / 4 + 1; // + player.GetHeight()
+						playery = max_y - cameray + player.GetHeight(); // + player.GetHeight()
 					}
 					if (isSticky == 1) {
 						isGrounded = true;
 						speedX = 0;
 						speedY = 0;
 					}
-					speedX = speedX;
-					speedY = -speedY * elasticity;
-					color = (255 << 8) + 13;
 					bounceCount++;
 					if (abs(speedY) < restThreshold && bounceCount > 8) {
 						speedY = 0;
 						speedX = 0;
 					}
+					speedX = speedX;
+					speedY = -speedY * elasticity;
+					color = (255 << 8) + 13;
 				}
 			}
+			if (max_x > biggest) {
+				biggest = max_x;
+				printf("%i \n", biggest);
+			}
+			
+			//screen->Line(min_x, min_y, min_x, max_y, color); //min x
+			screen->Line(max_x, min_y, max_x, max_y, color); //max x
+			//screen->Line(min_x, min_y, max_x, min_y, color); //min y
+			//screen->Line(min_x, max_y, max_x, max_y, color); //max y
+			
 			//screen->Box(min_x, min_y, max_x, max_y, color);
 		}
 		int cx = playerx - camerax;
