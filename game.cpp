@@ -114,9 +114,9 @@ namespace Tmpl8
 			CollisionCircleAABB(cx, cy, playerr, min_x, min_y, max_x, max_y, &hasCollision, &floor, speedX, speedY);
 			if (hasCollision)
 			{
-				// 1 = O| max_x -- 2 = |O min_x -- 3 = ō max_y -- 4 = ⍜ min_y
+				// 1 = |O max_x -- 2 = O| min_x -- 3 = ō max_y -- 4 = ⍜ min_y
 				if (floor != -858993460) {
-					//printf("%i\n", floor);
+					printf("%i\n", floor);
 				}
 				if (floor == 1 || floor == 2)
 				{
@@ -124,7 +124,7 @@ namespace Tmpl8
 						playerx = max_x + camerax + player.GetWidth(); // + player.GetHeight()
 					}
 					else if (floor == 2) {
-						playerx = min_x + camerax - player.GetWidth(); // + player.GetHeight()
+						playerx = min_x + camerax - player.GetWidth() - 1; // + player.GetHeight()
 					}
 					
 
@@ -166,7 +166,7 @@ namespace Tmpl8
 			}
 			
 			//screen->Line(min_x, min_y, min_x, max_y, color); //min x
-			screen->Line(max_x, min_y, max_x, max_y, color); //max x
+			//screen->Line(max_x, min_y, max_x, max_y, color); //max x
 			//screen->Line(min_x, min_y, max_x, min_y, color); //min y
 			//screen->Line(min_x, max_y, max_x, max_y, color); //max y
 			
