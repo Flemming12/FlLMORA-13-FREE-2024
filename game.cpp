@@ -58,7 +58,7 @@ namespace Tmpl8
 	bool click = false;
 
 	int biggest = 0;
-
+	int camx1, camx2, camy1, camy2;
     // -----------------------------------------------------------
     // Main application tick function
     // -----------------------------------------------------------
@@ -67,10 +67,20 @@ namespace Tmpl8
 	{
 		screen->Clear(255);
 		background.DrawScaled(0 - camerax, (512 - scaleHeight + cameray), scaleWidth, scaleHeight, screen);
+
 		//screen->Line(test, 0, test, 512, (234 << 16) + (255));
 				
 		camerax = playerx - 400;
 		cameray = -playery + 256;
+		
+		//printf("%f", camerax);
+		//printf(" %f\n", cameray);
+		//camx1 = playerx - 400 + 5; 
+		//camx2 = playery - 256 + 5;
+		//camy1 = playerx + 400 - 5;
+		//camy2 = playery + 256 - 5;
+		//screen->Box(camx1 - camerax, camy1 - cameray, camx2 - camerax, camy2 - cameray, (234 << 16) + (255));
+		//screen->Line(camerax - camerax, 0 + cameray, playerx - camerax, playery + cameray, (255 << 16) + (136 << 8));
 		if (mouseDown) {
 			click = true;
 			mouseUp = false;
@@ -85,92 +95,89 @@ namespace Tmpl8
 			playerx += speedX;
 			playery += speedY;
 			speedY += gravity;
-		}
-		for (auto& collision : collisions.collision)
-		{
-			auto& e = collision.get();
-			auto& pos = e.getPosition();
-			auto& size = e.getSize();
-			auto& sticky = e.getField<ldtk::FieldType::Bool>("Sticky");
-			auto& isSticky = sticky.value();
-			int color = 0;
-			if (isSticky == 1)
+			for (auto& collision : collisions.collision)
 			{
-				color = (255 << 16) + (153 << 8);
-			}
-			else
-			{
-				color = (255 << 16);
-			}
-			int min_x = ((pos.x * scale) - camerax);
-			int min_y = ((pos.y * scale - offset) + cameray);
-			int max_x = (((pos.x + size.x) * scale) - camerax);
-			int max_y = (((pos.y + size.y) * scale - offset) + cameray);
-			int cx = playerx - camerax;
-			int cy = playery + cameray;
-			int cr = playerr;
-			bool hasCollision;
-			int floor;
-			CollisionCircleAABB(cx, cy, playerr, min_x, min_y, max_x, max_y, &hasCollision, &floor, speedX, speedY);
-			if (hasCollision)
-			{
-				// 1 = |O max_x -- 2 = O| min_x -- 3 = ō max_y -- 4 = ⍜ min_y
-				if (floor != -858993460) {
-					printf("%i\n", floor);
-				}
-				if (floor == 1 || floor == 2)
+				auto& e = collision.get();
+				auto& pos = e.getPosition();
+				auto& size = e.getSize();
+				auto& sticky = e.getField<ldtk::FieldType::Bool>("Sticky");
+				auto& isSticky = sticky.value();
+				int color = 0;
+				if (isSticky == 1)
 				{
-					if (floor == 1) {
-						playerx = max_x + camerax + player.GetWidth(); // + player.GetHeight()
+					color = (255 << 16) + (153 << 8);
+				}
+				else
+				{
+					color = (255 << 16);
+				}
+				int min_x = ((pos.x * scale) - camerax);
+				int min_y = ((pos.y * scale - offset) + cameray);
+				int max_x = (((pos.x + size.x) * scale) - camerax);
+				int max_y = (((pos.y + size.y) * scale - offset) + cameray);
+				int cx = playerx - camerax;
+				int cy = playery + cameray;
+				int cr = playerr;
+				
+				bool hasCollision;
+				int floor;
+				CollisionCircleAABB(cx, cy, playerr, min_x, min_y, max_x, max_y, &hasCollision, &floor, speedX, speedY);
+				if (hasCollision)
+				{
+					// 1 = |O max_x -- 2 = O| min_x -- 3 = ō max_y -- 4 = ⍜ min_y
+					if (floor != -858993460) {
+						printf("%i\n", floor);
 					}
-					else if (floor == 2) {
-						playerx = min_x + camerax - player.GetWidth() - 1; // + player.GetHeight()
-					}
-					
+					if (floor == 1 || floor == 2)
+					{
+						if (floor == 1) {
+							playerx = max_x + camerax + player.GetWidth(); // + player.GetHeight()
+						}
+						else if (floor == 2) {
+							playerx = min_x + camerax - player.GetWidth() - 1; // + player.GetHeight()
+						}
 
-					speedX = -speedX;
-					speedY = speedY;
-					if (isSticky == 1) {
-						isGrounded = true;
-						speedX = 0;
-						speedY = 0;
+
+						speedX = -speedX;
+						speedY = speedY;
+						if (isSticky == 1) {
+							isGrounded = true;
+							speedX = 0;
+							speedY = 0;
+						}
+						color = (255 << 16) + (238 << 8);
 					}
-					color = (255 << 16) + (238 << 8);
+					else if (floor == 3 || floor == 4)
+					{
+						if (floor == 4) {
+							playery = min_y - cameray - player.GetHeight(); // + player.GetHeight()
+						}
+						else if (floor == 3) {
+							playery = max_y - cameray + player.GetHeight(); // + player.GetHeight()
+						}
+						if (isSticky == 1) {
+							isGrounded = true;
+							speedX = 0;
+							speedY = 0;
+						}
+						bounceCount++;
+						if (abs(speedY) < restThreshold && bounceCount > 8) {
+							speedY = 0;
+							speedX = 0;
+						}
+						speedX = speedX;
+						speedY = -speedY * elasticity;
+						color = (255 << 8) + 13;
+					}
 				}
-				else if (floor == 3 || floor == 4)
-				{
-					if (floor == 4) {
-						playery = min_y - cameray - player.GetHeight(); // + player.GetHeight()
-					}
-					else if (floor == 3) {
-						playery = max_y - cameray + player.GetHeight(); // + player.GetHeight()
-					}
-					if (isSticky == 1) {
-						isGrounded = true;
-						speedX = 0;
-						speedY = 0;
-					}
-					bounceCount++;
-					if (abs(speedY) < restThreshold && bounceCount > 8) {
-						speedY = 0;
-						speedX = 0;
-					}
-					speedX = speedX;
-					speedY = -speedY * elasticity;
-					color = (255 << 8) + 13;
-				}
+
+				//screen->Line(min_x, min_y, min_x, max_y, color); //min x
+				//screen->Line(max_x, min_y, max_x, max_y, color); //max x
+				//screen->Line(min_x, min_y, max_x, min_y, color); //min y
+				//screen->Line(min_x, max_y, max_x, max_y, color); //max y
+
+				//screen->Box(min_x, min_y, max_x, max_y, color);
 			}
-			if (max_x > biggest) {
-				biggest = max_x;
-				printf("%i \n", biggest);
-			}
-			
-			//screen->Line(min_x, min_y, min_x, max_y, color); //min x
-			//screen->Line(max_x, min_y, max_x, max_y, color); //max x
-			//screen->Line(min_x, min_y, max_x, min_y, color); //min y
-			//screen->Line(min_x, max_y, max_x, max_y, color); //max y
-			
-			//screen->Box(min_x, min_y, max_x, max_y, color);
 		}
 		int cx = playerx - camerax;
 		int cy = playery + cameray;
