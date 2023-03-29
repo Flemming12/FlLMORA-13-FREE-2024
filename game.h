@@ -1,6 +1,7 @@
 #pragma once
 #include <cstdio> //printf
 #include "LDtkLoader/Project.hpp"
+#include "player.h"
 
 namespace Tmpl8 {
 class CollisionClass {
@@ -32,6 +33,8 @@ private:
 	int mouseDown;
 	CollisionClass collisions;
 	ldtk::Project ldtk_project;
+	Player player;
+	Camera camera;
 };
 
 }; // namespace Tmpl8

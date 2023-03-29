@@ -2344,6 +2344,40 @@
 								"id": "V_Bool",
 								"params": [ true ]
 							}] }]
+						},
+						{
+							"__identifier": "Collision",
+							"__grid": [0,0],
+							"__pivot": [0,0],
+							"__tags": [],
+							"__tile": null,
+							"__smartColor": "#BE4A2F",
+							"iid": "994a8a90-c640-11ed-a19a-df964bb3087a",
+							"width": 1,
+							"height": 376,
+							"defUid": 193,
+							"px": [0,0],
+							"fieldInstances": [{ "__identifier": "Sticky", "__value": false, "__type": "Bool", "__tile": null, "defUid": 195, "realEditorValues": [{
+								"id": "V_Bool",
+								"params": [ false ]
+							}] }]
+						},
+						{
+							"__identifier": "Collision",
+							"__grid": [35,0],
+							"__pivot": [0,0],
+							"__tags": [],
+							"__tile": null,
+							"__smartColor": "#BE4A2F",
+							"iid": "24f0cfe0-c640-11ed-a19a-993e788f209b",
+							"width": 1,
+							"height": 376,
+							"defUid": 193,
+							"px": [287,0],
+							"fieldInstances": [{ "__identifier": "Sticky", "__value": false, "__type": "Bool", "__tile": null, "defUid": 195, "realEditorValues": [{
+								"id": "V_Bool",
+								"params": [ false ]
+							}] }]
 						}
 					]
 				}

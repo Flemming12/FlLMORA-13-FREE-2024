@@ -5,6 +5,7 @@
 #include <cstdio> //printf
 #include "collision.h"
 #include <typeinfo>
+#include "player.h"
 
 namespace Tmpl8
 {
@@ -20,6 +21,13 @@ namespace Tmpl8
 		const auto& level1 = world.getLevel("Level_0");
 		const auto& entities = level1.getLayer("Entities");
 		collisions.collision = entities.getEntitiesByName("Collision");
+		player.x = 80.8;
+		player.y = 432;
+		player.r = 16;
+		player.speedx = 0;
+		player.speedy = 0;
+		camera.x = 0;
+		camera.y = 0;
 	}
 
 	// -----------------------------------------------------------
@@ -29,8 +37,8 @@ namespace Tmpl8
 	{
 	}
 
-	float camerax = 0;
-	float cameray = 0;
+	//float camera.x = 0;
+	//float camera.y = 0;
 
 	Sprite background(new Surface("map/ldtk/testmap/simplified/Level_0/IntGrid.png"), 1);
 	int backgroundWidth = background.GetWidth();
@@ -39,48 +47,61 @@ namespace Tmpl8
 	int scaleWidth = backgroundWidth * scale;
 	int scaleHeight = backgroundHeight * scale;
 	int offset = scale * backgroundHeight - 512; 
-	Sprite player(new Surface("assets/slime.png"), 1);
-	int playerWidth = player.GetWidth();
-	int playerHeigth = player.GetHeight();
-	float playerx = (3 * 8 * scale - 8 * scale - camerax) + (player.GetWidth() * scale / 4);
-	float playery = ((512 - (3 * 8 * scale)) + cameray) + (player.GetHeight() * scale / 4);
-	int playerr = scale * 4;
+	Sprite playerSprite(new Surface("assets/slime.png"), 1);
+	int playerWidth = playerSprite.GetWidth();
+	int playerHeigth = playerSprite.GetHeight();
+	//float player.x = (3 * 8 * scale - 8 * scale - camera.x) + (playerSprite.GetWidth() * scale / 4);
+	//float player.y = ((512 - (3 * 8 * scale)) + camera.y) + (playerSprite.GetHeight() * scale / 4);
+	//int player.r = scale * 4;
 
-	float speedX = 0 * scale;
-	float speedY = 0 * scale;
-	float gravity = 0.3;
-	float elasticity = 0.8; // coefficient of restitution
-	int bounceCount = 0;
-	int maxBounces = 8; // maximum number of bounces
-	float restThreshold = 3.2; // threshold velocity for resting
+	//float player.speedx = 0.1 * scale;
+	//float player.speedy = 0.1 * scale;
+	//float gravity = 0.3;
+	//float elasticity = 0.8; // coefficient of restitution
+	//int bounceCount = 0;
+	//int maxBounces = 8; // maximum number of bounces
+	//float restThreshold = 3.2; // threshold velocity for resting
 
 	bool isGrounded = false;
 	bool click = false;
 
-	int biggest = 0;
-	int camx1, camx2, camy1, camy2;
+	//float player.x = 0;
+	//float player.y = 0;
+
+	//int camx1, camx2, camy1, camy2;
     // -----------------------------------------------------------
     // Main application tick function
     // -----------------------------------------------------------
 
 	void Game::Tick(float deltaTime)
 	{
+		printf("%i", scaleWidth);
+		printf(" %i\n", scaleHeight);
+
+		//printf("%f", player.x);
+		//printf(" %f\n", player.y);
+		//float player.x = player.x;
+		//float player.y = player.y;
 		screen->Clear(255);
-		background.DrawScaled(0 - camerax, (512 - scaleHeight + cameray), scaleWidth, scaleHeight, screen);
+		background.DrawScaled(0 - camera.x, (512 - 1504 + camera.y), 1154, 1504, screen);
 
 		//screen->Line(test, 0, test, 512, (234 << 16) + (255));
 				
-		camerax = playerx - 400;
-		cameray = -playery + 256;
+		camera.x = player.x - 400;
+		camera.y = -player.y + 256;
+		if (camera.x < 0) {
+			camera.x = 0;
+		}
+		if (camera.y < 0) {
+			camera.y = 0;
+		}
+		if (camera.x > 516 - 168) {
+			camera.x = 516- 168;
+		}
 		
-		//printf("%f", camerax);
-		//printf(" %f\n", cameray);
-		//camx1 = playerx - 400 + 5; 
-		//camx2 = playery - 256 + 5;
-		//camy1 = playerx + 400 - 5;
-		//camy2 = playery + 256 - 5;
-		//screen->Box(camx1 - camerax, camy1 - cameray, camx2 - camerax, camy2 - cameray, (234 << 16) + (255));
-		//screen->Line(camerax - camerax, 0 + cameray, playerx - camerax, playery + cameray, (255 << 16) + (136 << 8));
+		//printf("%f", camera.x - camera.x);
+		//printf(" %f\n", camera.y - camera.y);
+
 		if (mouseDown) {
 			click = true;
 			mouseUp = false;
@@ -92,9 +113,9 @@ namespace Tmpl8
 		//printf("%i\n", mouseUp);
 		
 		if (isGrounded == false) {
-			playerx += speedX;
-			playery += speedY;
-			speedY += gravity;
+			player.x += player.speedx;
+			player.y += player.speedy;
+			player.speedy += 0.3;
 			for (auto& collision : collisions.collision)
 			{
 				auto& e = collision.get();
@@ -111,17 +132,17 @@ namespace Tmpl8
 				{
 					color = (255 << 16);
 				}
-				int min_x = ((pos.x * scale) - camerax);
-				int min_y = ((pos.y * scale - offset) + cameray);
-				int max_x = (((pos.x + size.x) * scale) - camerax);
-				int max_y = (((pos.y + size.y) * scale - offset) + cameray);
-				int cx = playerx - camerax;
-				int cy = playery + cameray;
-				int cr = playerr;
+				int min_x = ((pos.x * scale) - camera.x);
+				int min_y = ((pos.y * scale - offset) + camera.y);
+				int max_x = (((pos.x + size.x) * scale) - camera.x);
+				int max_y = (((pos.y + size.y) * scale - offset) + camera.y);
+				int cx = player.x - camera.x;
+				int cy = player.y + camera.y;
+				int cr = player.r;
 				
 				bool hasCollision;
 				int floor;
-				CollisionCircleAABB(cx, cy, playerr, min_x, min_y, max_x, max_y, &hasCollision, &floor, speedX, speedY);
+				CollisionCircleAABB(cx, cy, player.r, min_x, min_y, max_x, max_y, &hasCollision, &floor, player.speedx, player.speedy);
 				if (hasCollision)
 				{
 					// 1 = |O max_x -- 2 = O| min_x -- 3 = ō max_y -- 4 = ⍜ min_y
@@ -131,42 +152,42 @@ namespace Tmpl8
 					if (floor == 1 || floor == 2)
 					{
 						if (floor == 1) {
-							playerx = max_x + camerax + player.GetWidth(); // + player.GetHeight()
+							player.x = max_x + camera.x + playerSprite.GetWidth(); // + player.GetHeight()
 						}
 						else if (floor == 2) {
-							playerx = min_x + camerax - player.GetWidth() - 1; // + player.GetHeight()
+							player.x = min_x + camera.x - playerSprite.GetWidth() - 1; // + player.GetHeight()
 						}
 
 
-						speedX = -speedX;
-						speedY = speedY;
+						player.speedx = -player.speedx;
+						player.speedy = player.speedy;
 						if (isSticky == 1) {
 							isGrounded = true;
-							speedX = 0;
-							speedY = 0;
+							player.speedx = 0;
+							player.speedy = 0;
 						}
 						color = (255 << 16) + (238 << 8);
 					}
 					else if (floor == 3 || floor == 4)
 					{
 						if (floor == 4) {
-							playery = min_y - cameray - player.GetHeight(); // + player.GetHeight()
+							player.y = min_y - camera.y - playerSprite.GetHeight(); // + player.GetHeight()
 						}
 						else if (floor == 3) {
-							playery = max_y - cameray + player.GetHeight(); // + player.GetHeight()
+							player.y = max_y - camera.y + playerSprite.GetHeight(); // + player.GetHeight()
 						}
 						if (isSticky == 1) {
 							isGrounded = true;
-							speedX = 0;
-							speedY = 0;
+							player.speedx = 0;
+							player.speedy = 0;
 						}
-						bounceCount++;
-						if (abs(speedY) < restThreshold && bounceCount > 8) {
-							speedY = 0;
-							speedX = 0;
-						}
-						speedX = speedX;
-						speedY = -speedY * elasticity;
+						//bounceCount++;
+						//if (abs(player.speedy) < 3.2 && bounceCount > 8) {
+						//	player.speedy = 0;
+						//	player.speedx = 0;
+						//}
+						player.speedx = player.speedx;
+						player.speedy = -player.speedy * 0.8;
 						color = (255 << 8) + 13;
 					}
 				}
@@ -179,8 +200,8 @@ namespace Tmpl8
 				//screen->Box(min_x, min_y, max_x, max_y, color);
 			}
 		}
-		int cx = playerx - camerax;
-		int cy = playery + cameray;
+		int cx = player.x - camera.x;
+		int cy = player.y + camera.y;
 		if (isGrounded) {
 			int distance = sqrt((mouseX - cx) * (mouseX - cx)  + (mouseY - cy) * (mouseY - cy));
 			if (distance > (4 * scale)) {
@@ -194,18 +215,18 @@ namespace Tmpl8
 					launchY = launchY/4.5;
 					printf("%f ", launchX);
 					printf("%f\n", launchY);
-					speedX = launchX;
-					speedY = launchY;
+					player.speedx = launchX;
+					player.speedy = launchY;
 					isGrounded = false;
 					
 					click = false;
 					mouseDown = false;
-					bounceCount = 0;
+					//bounceCount = 0;
 				}
 			}
 		}
-		player.DrawScaled((playerx - (player.GetWidth() * scale / 4)) - camerax, (playery - (player.GetHeight() * scale / 4)) + cameray, (8 * scale), (8 * scale), screen);
+		playerSprite.DrawScaled((player.x - (playerSprite.GetWidth() * scale / 4)) - camera.x, (player.y - (playerSprite.GetHeight() * scale / 4)) + camera.y, (8 * scale), (8 * scale), screen);
 		int playercolor = (234 << 16) + (255);
-		//screen->DrawCircle(cx, cy, playerr, playercolor)
+		//screen->DrawCircle(cx, cy, player.r, playercolor)
 	}
 };

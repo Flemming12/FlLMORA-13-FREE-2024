@@ -498,6 +498,32 @@
 				"customFields": {
 					"Sticky": true
 				}
+			},
+			{
+				"id": "Collision",
+				"iid": "994a8a90-c640-11ed-a19a-df964bb3087a",
+				"layer": "Entities",
+				"x": 0,
+				"y": 0,
+				"width": 1,
+				"height": 376,
+				"color": 12470831,
+				"customFields": {
+					"Sticky": false
+				}
+			},
+			{
+				"id": "Collision",
+				"iid": "24f0cfe0-c640-11ed-a19a-993e788f209b",
+				"layer": "Entities",
+				"x": 287,
+				"y": 0,
+				"width": 1,
+				"height": 376,
+				"color": 12470831,
+				"customFields": {
+					"Sticky": false
+				}
 			}
 		]
 	}
