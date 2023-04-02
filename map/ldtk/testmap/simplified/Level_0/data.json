@@ -6,12 +6,7 @@
 	"width": 288,
 	"height": 376,
 	"bgColor": "#696A79",
-	"neighbourLevels": [
-		{
-			"levelIid": "db019330-9f30-11ed-af37-4db7699cfafb",
-			"dir": "e"
-		}
-	],
+	"neighbourLevels": [],
 	"customFields" : {},
 	"layers": [
 		"IntGrid.png"
@@ -384,51 +379,12 @@
 			},
 			{
 				"id": "Collision",
-				"iid": "d45e3750-9f30-11ed-9031-6967848f6a04",
-				"layer": "Entities",
-				"x": 112,
-				"y": 192,
-				"width": 32,
-				"height": 8,
-				"color": 12470831,
-				"customFields": {
-					"Sticky": true
-				}
-			},
-			{
-				"id": "Collision",
-				"iid": "ede7ff30-9f30-11ed-9031-cb8fbe47b45c",
+				"iid": "f36c80c0-9f30-11ed-9031-f17b04ccdc60",
 				"layer": "Entities",
 				"x": 104,
 				"y": 192,
-				"width": 8,
+				"width": 48,
 				"height": 16,
-				"color": 12470831,
-				"customFields": {
-					"Sticky": false
-				}
-			},
-			{
-				"id": "Collision",
-				"iid": "f03e7250-9f30-11ed-9031-f7e9b72c9765",
-				"layer": "Entities",
-				"x": 144,
-				"y": 192,
-				"width": 8,
-				"height": 16,
-				"color": 12470831,
-				"customFields": {
-					"Sticky": false
-				}
-			},
-			{
-				"id": "Collision",
-				"iid": "f36c80c0-9f30-11ed-9031-f17b04ccdc60",
-				"layer": "Entities",
-				"x": 112,
-				"y": 200,
-				"width": 32,
-				"height": 8,
 				"color": 12470831,
 				"customFields": {
 					"Sticky": false

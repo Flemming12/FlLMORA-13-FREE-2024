@@ -45,7 +45,7 @@ namespace Tmpl8
 	int backgroundHeight = background.GetHeight();
 	float scale = 4;
 	int scaleWidth = backgroundWidth * scale;
-	int scaleHeight = backgroundHeight * scale;
+	int scaleHeight = backgroundHeight * scale;  
 	int offset = scale * backgroundHeight - 512; 
 	Sprite playerSprite(new Surface("assets/slime.png"), 1);
 	int playerWidth = playerSprite.GetWidth();
@@ -83,7 +83,7 @@ namespace Tmpl8
 		//float player.x = player.x;
 		//float player.y = player.y;
 		screen->Clear(255);
-		background.DrawScaled(0 - camera.x, (512 - 1504 + camera.y), 1154, 1504, screen);
+		background.DrawScaled(0 - camera.x, (512 - scaleHeight + camera.y), scaleWidth, scaleHeight, screen);
 
 		//screen->Line(test, 0, test, 512, (234 << 16) + (255));
 				
@@ -95,8 +95,8 @@ namespace Tmpl8
 		if (camera.y < 0) {
 			camera.y = 0;
 		}
-		if (camera.x > 516 - 168) {
-			camera.x = 516- 168;
+		if (camera.x > 512 - 168) {
+			camera.x = 512 - 168;
 		}
 		
 		//printf("%f", camera.x - camera.x);
