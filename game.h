@@ -2,6 +2,7 @@
 #include <cstdio> //printf
 #include "LDtkLoader/Project.hpp"
 #include "player.h"
+#include "surface.h"
 
 namespace Tmpl8 {
 class CollisionClass {
@@ -12,6 +13,7 @@ class Surface;
 class Game
 {
 public:
+	Game();
 	void SetTarget( Surface* surface ) { screen = surface; }
 	void Init();
 	void Shutdown();
@@ -24,17 +26,41 @@ public:
 		mouseY = y;
 	}
 	void KeyUp( int key ) { /* implement if you want to handle keys */ }
-	void KeyDown( int key ) { /* implement if you want to handle keys */ }
+	void KeyDown( int key ) 
+	{ 
+		keyDown = key;
+	}
 private:
 	Surface* screen;
 	int mouseX;
 	int mouseY;
 	int mouseUp;
 	int mouseDown;
+	int keyDown;
 	CollisionClass collisions;
 	ldtk::Project ldtk_project;
 	Player player;
 	Camera camera;
+	Sprite startButton;
+	Sprite quitButton;
+	Sprite background;
+	Sprite playerSprite;
+	Sprite continueButton;
+	Sprite menuButton;
+
+	int backgroundWidth;
+	int backgroundHeight;
+	float scale;
+	int scaleWidth;
+	int scaleHeight;
+	int offset;
+	int playerWidth;
+	int playerHeigth;
+
+	bool isGrounded;
+	bool click;
+	bool startMenu;
+	bool pauseMenu;
 };
 
 }; // namespace Tmpl8
