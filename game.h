@@ -47,6 +47,7 @@ private:
 	Sprite playerSprite;
 	Sprite continueButton;
 	Sprite menuButton;
+	Sprite controlsButton;
 
 	int backgroundWidth;
 	int backgroundHeight;

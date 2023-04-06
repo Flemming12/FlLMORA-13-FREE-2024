@@ -10,6 +10,7 @@
 
 #include <cstdlib>
 #include <cstdio>
+#include "game.h"
 
 constexpr int ScreenWidth = 800;
 constexpr int ScreenHeight = 512;

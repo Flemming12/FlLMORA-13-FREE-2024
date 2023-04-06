@@ -15,6 +15,7 @@ namespace Tmpl8
 		,quitButton(new Surface("assets/Menu Buttons/Large Buttons/Large Buttons/QuitButtons.png"), 2)
 		,continueButton(new Surface("assets/Menu Buttons/Large Buttons/Large Buttons/ContinueButtons.png"), 2)
 		,menuButton(new Surface("assets/Menu Buttons/Large Buttons/Large Buttons/MenuButtons.png"), 2)
+		,controlsButton(new Surface("assets/Menu Buttons/Large Buttons/Large Buttons/ControlsButtons.png"), 2)
 		,background(new Surface("map/ldtk/testmap/simplified/Level_0/IntGrid.png"), 1)
 		,playerSprite(new Surface("assets/slime.png"), 1)
 	{
@@ -29,6 +30,9 @@ namespace Tmpl8
 		playerHeigth = playerSprite.GetHeight();
 
 		startMenu = true; //ffff
+
+		screenWidth = 800;
+		screenHeight = 512;
 	}
 
 	// -----------------------------------------------------------
@@ -112,11 +116,11 @@ namespace Tmpl8
 
 		if (startMenu) {
 			screen->Clear((14 << 16) + (7 << 8) + 27);
-			//printf("%i", click);
-			//printf(" %i\n", mouseY);
-			if (mouseX > 250 && mouseX < 550 && mouseY > 175 && mouseY < 275) {
+			printf("%i", mouseX);
+			printf(" %i\n", mouseY);
+			if (mouseX > 250 && mouseX < 550 && mouseY > 86 && mouseY < 186) {
 				startButton.SetFrame(1);
-				startButton.Draw(screen, 235, 170);
+				startButton.Draw(screen, 235, 81);
 				if (click) {
 					Init();
 					startMenu = false;
@@ -126,21 +130,31 @@ namespace Tmpl8
 			}
 			else {
 				startButton.SetFrame(0);
-				startButton.Draw(screen, 235, 170);
+				startButton.Draw(screen, 235, 81);
 			}
-			if (mouseX > 250 && mouseX < 550 && mouseY > 300 && mouseY < 400) {
+			if (mouseX > 250 && mouseX < 550 && mouseY > 206 && mouseY < 306) {
+				controlsButton.SetFrame(1);
+				controlsButton.Draw(screen, 235, 201);
+				if (click) {
+					exit(0);
+				}
+			}
+			else {
+				controlsButton.SetFrame(0);
+				controlsButton.Draw(screen, 235, 201);
+			}
+
+			if (mouseX > 250 && mouseX < 550 && mouseY > 326 && mouseY < 426) {
 				quitButton.SetFrame(1);
-				quitButton.Draw(screen, 235, 295);
+				quitButton.Draw(screen, 235, 321);
 				if (click) {
 					exit(0);
 				}
 			}
 			else {
 				quitButton.SetFrame(0);
-				quitButton.Draw(screen, 235, 295);
-			}
-
-			
+				quitButton.Draw(screen, 235, 321);
+			}			
 		}
 		else {
 			//printf("%f", player.x);
