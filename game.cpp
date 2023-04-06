@@ -31,8 +31,8 @@ namespace Tmpl8
 
 		startMenu = true; //ffff
 
-		screenWidth = 800;
-		screenHeight = 512;
+		//screenWidth = 800;
+		//screenHeight = 512;
 	}
 
 	// -----------------------------------------------------------
