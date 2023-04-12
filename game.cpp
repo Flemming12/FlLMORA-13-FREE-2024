@@ -7,6 +7,9 @@
 #include "player.h"
 #include <SDL_keycode.h>
 
+#include <Audio/Sound.hpp>
+#include <Audio/Device.hpp>
+
 namespace Tmpl8
 {
 	
@@ -30,6 +33,8 @@ namespace Tmpl8
 		playerHeigth = playerSprite.GetHeight();
 
 		startMenu = true; //ffff
+
+		
 
 		//screenWidth = 800;
 		//screenHeight = 512;
@@ -58,7 +63,18 @@ namespace Tmpl8
 		isGrounded = false;
 		click = false;
 		pauseMenu = false;
-		
+
+		Audio::Device::setMasterVolume(1.0f);
+
+		Audio::Sound slime{ "assets/Audio/slime.mp3", Audio::Sound::Type::Sound };
+		slime.setVolume(1.0f);
+		slime.replay();
+
+		while (slime.isPlaying()) {
+
+		}
+		bool test = slime.isPlaying();
+		printf("%i\n", test);
 	}
 
 	// -----------------------------------------------------------
@@ -116,12 +132,13 @@ namespace Tmpl8
 
 		if (startMenu) {
 			screen->Clear((14 << 16) + (7 << 8) + 27);
-			printf("%i", mouseX);
-			printf(" %i\n", mouseY);
+			//printf("%i", mouseX);
+			//printf(" %i\n", mouseY);
 			if (mouseX > 250 && mouseX < 550 && mouseY > 86 && mouseY < 186) {
 				startButton.SetFrame(1);
 				startButton.Draw(screen, 235, 81);
 				if (click) {
+					
 					Init();
 					startMenu = false;
 					click = false;
@@ -157,6 +174,7 @@ namespace Tmpl8
 			}			
 		}
 		else {
+			
 			//printf("%f", player.x);
 			//printf(" %f\n", player.y);
 			//float player.x = player.x;
@@ -286,8 +304,8 @@ namespace Tmpl8
 							float launchY = arrowY - cy;
 							launchX = launchX / 4.5;
 							launchY = launchY / 4.5;
-							printf("%f ", launchX);
-							printf("%f\n", launchY);
+							//printf("%f ", launchX);
+							//printf("%f\n", launchY);
 							player.speedx = launchX;
 							player.speedy = launchY;
 							isGrounded = false;
