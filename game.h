@@ -4,6 +4,9 @@
 #include "player.h"
 #include "surface.h"
 
+#include <Audio/Sound.hpp>
+#include <Audio/Device.hpp>
+
 namespace Tmpl8 {
 class CollisionClass {
 	public:
@@ -62,6 +65,8 @@ private:
 	bool click;
 	bool startMenu;
 	bool pauseMenu;
+	Audio::Sound slime{ "assets/Audio/slime2.wav", Audio::Sound::Type::Sound };
+	Audio::Sound bounce{ "assets/Audio/bounce.wav", Audio::Sound::Type::Sound };
 };
 
 }; // namespace Tmpl8
