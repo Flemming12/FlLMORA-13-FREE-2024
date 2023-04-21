@@ -34,8 +34,6 @@ namespace Tmpl8
 
 		startMenu = true; //ffff
 
-		
-
 		//screenWidth = 800;
 		//screenHeight = 512;
 	}
@@ -51,7 +49,7 @@ namespace Tmpl8
 		const auto& entities = level1.getLayer("Entities");
 		collisions.collision = entities.getEntitiesByName("Collision");
 		player.x = 80.8;
-		player.y = 432; //432
+		player.y = 432;
 		player.r = 16;
 		player.speedx = 0;
 		player.speedy = 0;
@@ -63,18 +61,7 @@ namespace Tmpl8
 		isGrounded = false;
 		click = false;
 		pauseMenu = false;
-
-		Audio::Device::setMasterVolume(1.0f);
-
-		Audio::Sound slime{ "assets/Audio/slime.mp3", Audio::Sound::Type::Sound };
-		slime.setVolume(1.0f);
-		slime.replay();
-
-		while (slime.isPlaying()) {
-
-		}
-		bool test = slime.isPlaying();
-		printf("%i\n", test);
+		
 	}
 
 	// -----------------------------------------------------------
@@ -122,6 +109,9 @@ namespace Tmpl8
 
 	void Game::Tick(float deltaTime)
 	{
+		printf("%i", playerSprite.GetWidth());
+		printf(" %i\n", playerSprite.GetHeight());
+		
 		if (mouseDown) {
 			click = true;
 			mouseUp = false;
@@ -132,8 +122,8 @@ namespace Tmpl8
 
 		if (startMenu) {
 			screen->Clear((14 << 16) + (7 << 8) + 27);
-			//printf("%i", mouseX);
-			//printf(" %i\n", mouseY);
+			printf("%i", mouseX);
+			printf(" %i\n", mouseY);
 			if (mouseX > 250 && mouseX < 550 && mouseY > 86 && mouseY < 186) {
 				startButton.SetFrame(1);
 				startButton.Draw(screen, 235, 81);
@@ -256,6 +246,10 @@ namespace Tmpl8
 									isGrounded = true;
 									player.speedx = 0;
 									player.speedy = 0;
+									slime.replay();
+								}
+								else {
+									bounce.replay();
 								}
 								color = (255 << 16) + (238 << 8);
 							}
@@ -271,6 +265,10 @@ namespace Tmpl8
 									isGrounded = true;
 									player.speedx = 0;
 									player.speedy = 0;
+									slime.replay();
+								}
+								else {
+									bounce.replay();
 								}
 								//bounceCount++;
 								//if (abs(player.speedy) < 3.2 && bounceCount > 8) {
@@ -330,6 +328,10 @@ namespace Tmpl8
 					keyDown = 0;
 					pauseMenu = false;
 				}
+			}
+
+			if (keyDown == SDL_SCANCODE_R) {
+				Init();
 			}
 
 			if (pauseMenu) {
