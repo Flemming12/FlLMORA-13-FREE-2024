@@ -85,30 +85,30 @@ public:
 	// Sprite flags
 	enum
 	{
-		FLARE		= (1<< 0),
-		OPFLARE		= (1<< 1),	
-		FLASH		= (1<< 4),	
-		DISABLED	= (1<< 6),	
-		GMUL		= (1<< 7),
-		BLACKFLARE	= (1<< 8),	
-		BRIGHTEST   = (1<< 9),
-		RFLARE		= (1<<12),
-		GFLARE		= (1<<13),
-		NOCLIP		= (1<<14)
+		FLARE = (1 << 0),
+		OPFLARE = (1 << 1),
+		FLASH = (1 << 4),
+		DISABLED = (1 << 6),
+		GMUL = (1 << 7),
+		BLACKFLARE = (1 << 8),
+		BRIGHTEST = (1 << 9),
+		RFLARE = (1 << 12),
+		GFLARE = (1 << 13),
+		NOCLIP = (1 << 14)
 	};
-	
+
 	// Structors
-	Sprite( Surface* a_Surface, unsigned int a_NumFrames );
+	Sprite(Surface* a_Surface, unsigned int a_NumFrames);
 	~Sprite();
 	// Methods
-	void Draw( Surface* a_Target, int a_X, int a_Y );
-	void DrawScaled( int a_X, int a_Y, int a_Width, int a_Height, Surface* a_Target );
-	void SetFlags( unsigned int a_Flags ) { m_Flags = a_Flags; }
-	void SetFrame( unsigned int a_Index ) { m_CurrentFrame = a_Index; }
+	void Draw(Surface* a_Target, int a_X, int a_Y);
+	void DrawScaled(int a_X, int a_Y, int a_Width, int a_Height, Surface* a_Target);
+	void SetFlags(unsigned int a_Flags) { m_Flags = a_Flags; }
+	void SetFrame(unsigned int a_Index) { m_CurrentFrame = a_Index; }
 	unsigned int GetFlags() const { return m_Flags; }
 	int GetWidth() { return m_Width; }
 	int GetHeight() { return m_Height; }
-	Pixel* GetBuffer() { return m_Surface->GetBuffer(); }	
+	Pixel* GetBuffer() { return m_Surface->GetBuffer(); }
 	unsigned int Frames() { return m_NumFrames; }
 	Surface* GetSurface() { return m_Surface; }
 private:
@@ -116,8 +116,8 @@ private:
 	void InitializeStartData();
 	// Attributes
 	int m_Width, m_Height, m_Pitch;
-	unsigned int m_NumFrames;          
-	unsigned int m_CurrentFrame;       
+	unsigned int m_NumFrames;
+	unsigned int m_CurrentFrame;
 	unsigned int m_Flags;
 	unsigned int** m_Start;
 	Surface* m_Surface;

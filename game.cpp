@@ -12,14 +12,16 @@
 
 namespace Tmpl8
 {
-	
+
 	Game::Game()
 		:startButton(new Surface("assets/Menu Buttons/Large Buttons/Large Buttons/StartButtons.png"), 2)
 		,quitButton(new Surface("assets/Menu Buttons/Large Buttons/Large Buttons/QuitButtons.png"), 2)
 		,continueButton(new Surface("assets/Menu Buttons/Large Buttons/Large Buttons/ContinueButtons.png"), 2)
 		,menuButton(new Surface("assets/Menu Buttons/Large Buttons/Large Buttons/MenuButtons.png"), 2)
 		,controlsButton(new Surface("assets/Menu Buttons/Large Buttons/Large Buttons/ControlsButtons.png"), 2)
-		,background(new Surface("map/ldtk/testmap/simplified/Level_0/IntGrid.png"), 1)
+		,backButton(new Surface("assets/Menu Buttons/Large Buttons/Large Buttons/BackButtons.png"), 2)
+		,controlMenu(new Surface("assets/Menu Buttons/ControlMenu.png"), 1)
+		,background(new Surface("map/ldtk/testmap/simplified/Level_0/_composite.png"), 1)
 		,playerSprite(new Surface("assets/slime.png"), 1)
 	{
 		backgroundWidth = background.GetWidth();
@@ -61,7 +63,7 @@ namespace Tmpl8
 		isGrounded = false;
 		click = false;
 		pauseMenu = false;
-		
+		controlsMenu = false;
 	}
 
 	// -----------------------------------------------------------
@@ -74,8 +76,8 @@ namespace Tmpl8
 	//float camera.x = 0;
 	//float camera.y = 0;
 
-	
-	
+
+
 	//Sprite startButton(new Surface("assets/Menu Buttons/Large Buttons/Large Buttons/Start Button.png"), 1);
 	//Sprite startButtonActive(new Surface("assets/Menu Buttons/Large Buttons/Large Buttons/Start Button2.png"), 1);
 	//
@@ -103,15 +105,12 @@ namespace Tmpl8
 	//float player.y = 0;
 
 	//int camx1, camx2, camy1, camy2;
-    // -----------------------------------------------------------
-    // Main application tick function
-    // -----------------------------------------------------------
+	// -----------------------------------------------------------
+	// Main application tick function
+	// -----------------------------------------------------------
 
 	void Game::Tick(float deltaTime)
 	{
-		printf("%i", playerSprite.GetWidth());
-		printf(" %i\n", playerSprite.GetHeight());
-		
 		if (mouseDown) {
 			click = true;
 			mouseUp = false;
@@ -122,13 +121,11 @@ namespace Tmpl8
 
 		if (startMenu) {
 			screen->Clear((14 << 16) + (7 << 8) + 27);
-			printf("%i", mouseX);
-			printf(" %i\n", mouseY);
 			if (mouseX > 250 && mouseX < 550 && mouseY > 86 && mouseY < 186) {
 				startButton.SetFrame(1);
 				startButton.Draw(screen, 235, 81);
 				if (click) {
-					
+
 					Init();
 					startMenu = false;
 					click = false;
@@ -143,7 +140,10 @@ namespace Tmpl8
 				controlsButton.SetFrame(1);
 				controlsButton.Draw(screen, 235, 201);
 				if (click) {
-					exit(0);
+					startMenu = false;
+					click = false;
+					mouseDown = false;
+					controlsMenu = true;
 				}
 			}
 			else {
@@ -161,12 +161,30 @@ namespace Tmpl8
 			else {
 				quitButton.SetFrame(0);
 				quitButton.Draw(screen, 235, 321);
-			}			
+			}
+		}
+		else if (controlsMenu) {
+			screen->Clear((14 << 16) + (7 << 8) + 27);
+			controlMenu.Draw(screen, 0, 0);
+			if (mouseX > 250 && mouseX < 550 && mouseY > 392 && mouseY < 492) {
+				backButton.SetFrame(1);
+				backButton.Draw(screen, 235, 387);
+				if (click) {
+					controlsMenu = false;
+					click = false;
+					mouseDown = false;
+					startMenu = true;
+				}
+			}
+			else {
+				backButton.SetFrame(0);
+				backButton.Draw(screen, 235, 387);
+			}
 		}
 		else {
-			
+
 			//printf("%f", player.x);
-			//printf(" %f\n", player.y);
+			printf(" %f\n", player.speedy);
 			//float player.x = player.x;
 			//float player.y = player.y;
 			screen->Clear((14 << 16) + (7 << 8) + 27);
@@ -182,8 +200,11 @@ namespace Tmpl8
 			if (camera.y < 0) {
 				camera.y = 0;
 			}
-			if (camera.x > 516 - 168) {
-				camera.x = 516 - 168;
+			if (camera.x > 352) {
+				camera.x = 352;
+			}
+			if (camera.y > 1088) {
+				camera.y = 1088;
 			}
 
 			//printf("%f", camera.x - camera.x);
@@ -192,18 +213,24 @@ namespace Tmpl8
 
 			//printf("%i ", mouseDown);
 			//printf("%i\n", mouseUp);
-			if (pauseMenu == false){
+			if (pauseMenu == false) {
 				if (isGrounded == false) {
-					player.x += player.speedx;
-					player.y += player.speedy;
-					player.speedy += 0.3;
+					player.x += player.speedx * deltaTime / 16.5;
+					//printf("speed x%f\n", player.speedx);
+					player.y += player.speedy * deltaTime / 16.5;
+					player.speedy += 0.3 * deltaTime / 16.5;
+					if (player.speedy > 30) {
+						player.speedy = 30;
+					}
 					for (auto& collision : collisions.collision)
 					{
 						auto& e = collision.get();
 						auto& pos = e.getPosition();
 						auto& size = e.getSize();
+						auto& finish = e.getField<ldtk::FieldType::Bool>("Finish");
 						auto& sticky = e.getField<ldtk::FieldType::Bool>("Sticky");
 						auto& isSticky = sticky.value();
+						auto& isFinish = finish.value();
 						int color = 0;
 						if (isSticky == 1)
 						{
@@ -227,8 +254,11 @@ namespace Tmpl8
 						if (hasCollision)
 						{
 							// 1 = |O max_x -- 2 = O| min_x -- 3 = ō max_y -- 4 = ⍜ min_y
-							if (floor != -858993460) {
-								printf("%i\n", floor);
+							//if (floor != -858993460) {
+							//	printf("%i\n", floor);
+							//}
+							if (isFinish) {
+								Init();
 							}
 							if (floor == 1 || floor == 2)
 							{
@@ -319,7 +349,7 @@ namespace Tmpl8
 			int playercolor = (234 << 16) + (255);
 			//screen->DrawCircle(cx, cy, player.r, playercolor)
 
-			if (keyDown == SDL_SCANCODE_P) {
+			if (keyDown == SDL_SCANCODE_ESCAPE) {
 				if (pauseMenu == false) {
 					keyDown = 0;
 					pauseMenu = true;

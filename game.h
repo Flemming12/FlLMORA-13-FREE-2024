@@ -51,6 +51,8 @@ private:
 	Sprite continueButton;
 	Sprite menuButton;
 	Sprite controlsButton;
+	Sprite backButton;
+	Sprite controlMenu;
 
 	int backgroundWidth;
 	int backgroundHeight;
@@ -65,6 +67,7 @@ private:
 	bool click;
 	bool startMenu;
 	bool pauseMenu;
+	bool controlsMenu;
 	Audio::Sound slime{ "assets/Audio/slime2.wav", Audio::Sound::Type::Sound };
 	Audio::Sound bounce{ "assets/Audio/bounce.wav", Audio::Sound::Type::Sound };
 };
