@@ -21,6 +21,8 @@ namespace Tmpl8
 		,controlsButton(new Surface("assets/Menu Buttons/Large Buttons/Large Buttons/ControlsButtons.png"), 2)
 		,backButton(new Surface("assets/Menu Buttons/Large Buttons/Large Buttons/BackButtons.png"), 2)
 		,controlMenu(new Surface("assets/Menu Buttons/ControlMenu.png"), 1)
+		,finishScreen(new Surface("assets/Menu Buttons/FinishScreen.png"),1)
+		,timerBackground(new Surface("assets/Menu Buttons/timerBackground.png"), 1)
 		,background(new Surface("map/ldtk/testmap/simplified/Level_0/_composite.png"), 1)
 		,playerSprite(new Surface("assets/slime.png"), 1)
 	{
@@ -60,10 +62,15 @@ namespace Tmpl8
 		mouseUp = 0;
 		mouseDown = 0;
 		keyDown = 0;
+		gameTimer = 0;
+		gameTimerMinutes = 0;
+		gameTimerSeconds = 0;
+		gameTimerMilliseconds = 0;
 		isGrounded = false;
 		click = false;
 		pauseMenu = false;
 		controlsMenu = false;
+		finished = false;
 	}
 
 	// -----------------------------------------------------------
@@ -121,6 +128,7 @@ namespace Tmpl8
 
 		if (startMenu) {
 			screen->Clear((14 << 16) + (7 << 8) + 27);
+			//screen->Print("Hello", 0, 0, 100);
 			if (mouseX > 250 && mouseX < 550 && mouseY > 86 && mouseY < 186) {
 				startButton.SetFrame(1);
 				startButton.Draw(screen, 235, 81);
@@ -181,14 +189,48 @@ namespace Tmpl8
 				backButton.Draw(screen, 235, 387);
 			}
 		}
+		else if (finished) {
+			screen->Clear((14 << 16) + (7 << 8) + 27);
+			finishScreen.Draw(screen, 0, 0);
+			if (mouseX > 250 && mouseX < 550 && mouseY > 392 && mouseY < 492) {
+				menuButton.SetFrame(1);
+				menuButton.Draw(screen, 235, 387);
+				if (click) {
+					finished = false;
+					click = false;
+					mouseDown = false;
+					startMenu = true;
+				}
+			}
+			else {
+				menuButton.SetFrame(0);
+				menuButton.Draw(screen, 235, 387);
+			}
+		}
 		else {
-
-			//printf("%f", player.x);
-			printf(" %f\n", player.speedy);
 			//float player.x = player.x;
 			//float player.y = player.y;
 			screen->Clear((14 << 16) + (7 << 8) + 27);
 			background.DrawScaled(0 - camera.x, (512 - scaleHeight + camera.y), scaleWidth, scaleHeight, screen);
+
+			gameTimer += deltaTime;
+
+			gameTimerMinutes = gameTimer / (60 * 1000);
+			gameTimerSeconds = (gameTimer / 1000) % 60;
+			gameTimerMilliseconds = gameTimer % 1000;
+
+			//212 20
+
+			timerBackground.Draw(screen, 0, 0);
+
+			char buffer[12];
+			sprintf(buffer, "%02d:%02d:%03d", gameTimerMinutes, gameTimerSeconds, gameTimerMilliseconds);
+			std::string timerString(buffer);
+			screen->Print(timerString.c_str(), 10, 10, (71 << 16) + (119 << 8) + 87, 4);
+			printf("%i", mouseY);
+			printf(" %i\n", mouseX);
+
+			//printf("The timer is: %s\n", timerString);
 
 			//screen->Line(test, 0, test, 512, (234 << 16) + (255));			
 
@@ -258,7 +300,7 @@ namespace Tmpl8
 							//	printf("%i\n", floor);
 							//}
 							if (isFinish) {
-								Init();
+								finished = true;
 							}
 							if (floor == 1 || floor == 2)
 							{

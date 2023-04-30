@@ -40,6 +40,11 @@ private:
 	int mouseUp;
 	int mouseDown;
 	int keyDown;
+	int gameTimer;
+	int gameTimerMinutes;
+	int gameTimerSeconds;
+	int gameTimerMilliseconds;
+
 	CollisionClass collisions;
 	ldtk::Project ldtk_project;
 	Player player;
@@ -53,6 +58,8 @@ private:
 	Sprite controlsButton;
 	Sprite backButton;
 	Sprite controlMenu;
+	Sprite finishScreen;
+	Sprite timerBackground;
 
 	int backgroundWidth;
 	int backgroundHeight;
@@ -68,6 +75,7 @@ private:
 	bool startMenu;
 	bool pauseMenu;
 	bool controlsMenu;
+	bool finished;
 	Audio::Sound slime{ "assets/Audio/slime2.wav", Audio::Sound::Type::Sound };
 	Audio::Sound bounce{ "assets/Audio/bounce.wav", Audio::Sound::Type::Sound };
 };
