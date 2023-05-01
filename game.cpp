@@ -6,6 +6,7 @@
 #include <typeinfo>
 #include "player.h"
 #include <SDL_keycode.h>
+#include <string>
 
 #include <Audio/Sound.hpp>
 #include <Audio/Device.hpp>
@@ -36,10 +37,8 @@ namespace Tmpl8
 		playerWidth = playerSprite.GetWidth();
 		playerHeigth = playerSprite.GetHeight();
 
-		startMenu = true; //ffff
-
-		//screenWidth = 800;
-		//screenHeight = 512;
+		startMenu = true;
+		hitboxes = false;
 	}
 
 	// -----------------------------------------------------------
@@ -80,38 +79,6 @@ namespace Tmpl8
 	{
 	}
 
-	//float camera.x = 0;
-	//float camera.y = 0;
-
-
-
-	//Sprite startButton(new Surface("assets/Menu Buttons/Large Buttons/Large Buttons/Start Button.png"), 1);
-	//Sprite startButtonActive(new Surface("assets/Menu Buttons/Large Buttons/Large Buttons/Start Button2.png"), 1);
-	//
-	//Sprite quitButton(new Surface("assets/Menu Buttons/Large Buttons/Large Buttons/Quit Button.png"), 1);
-	//Sprite quitButtonActive(new Surface("assets/Menu Buttons/Large Buttons/Large Buttons/Quit Button2.png"), 1);
-
-	//float player.x = (3 * 8 * scale - 8 * scale - camera.x) + (playerSprite.GetWidth() * scale / 4);
-	//float player.y = ((512 - (3 * 8 * scale)) + camera.y) + (playerSprite.GetHeight() * scale / 4);
-	//int player.r = scale * 4;
-
-	//float player.speedx = 0.1 * scale;
-	//float player.speedy = 0.1 * scale;
-	//float gravity = 0.3;
-	//float elasticity = 0.8; // coefficient of restitution
-	//int bounceCount = 0;
-	//int maxBounces = 8; // maximum number of bounces
-	//float restThreshold = 3.2; // threshold velocity for resting
-
-	//bool isGrounded = false;
-	//bool click = false;
-	//bool startMenu = true;
-	//bool pauseMenu = false;
-
-	//float player.x = 0;
-	//float player.y = 0;
-
-	//int camx1, camx2, camy1, camy2;
 	// -----------------------------------------------------------
 	// Main application tick function
 	// -----------------------------------------------------------
@@ -128,7 +95,6 @@ namespace Tmpl8
 
 		if (startMenu) {
 			screen->Clear((14 << 16) + (7 << 8) + 27);
-			//screen->Print("Hello", 0, 0, 100);
 			if (mouseX > 250 && mouseX < 550 && mouseY > 86 && mouseY < 186) {
 				startButton.SetFrame(1);
 				startButton.Draw(screen, 235, 81);
@@ -192,6 +158,23 @@ namespace Tmpl8
 		else if (finished) {
 			screen->Clear((14 << 16) + (7 << 8) + 27);
 			finishScreen.Draw(screen, 0, 0);
+			
+			highscoreMinutes = highscore / (60 * 1000);
+			highscoreSeconds = (highscore / 1000) % 60;
+			highscoreMilliseconds = highscore % 1000;
+
+			char buffer[16];
+			sprintf(buffer, "%02d:%02d:%03d", highscoreMinutes, highscoreSeconds, highscoreMilliseconds);
+			std::string highscoreTimeString(buffer);
+			std::string highscoreString = "Highscore: " + highscoreTimeString;
+			screen->Print(highscoreString.c_str(), 163, 240, (71 << 16) + (119 << 8) + 87, 4);
+
+			char buffer2[12];
+			sprintf(buffer2, "%02d:%02d:%03d", gameTimerMinutes, gameTimerSeconds, gameTimerMilliseconds);
+			std::string timerTimeString(buffer2);
+			std::string timerString = "Time: " + timerTimeString;
+			screen->Print(timerString.c_str(), 223, 280, (71 << 16) + (119 << 8) + 87, 4);
+
 			if (mouseX > 250 && mouseX < 550 && mouseY > 392 && mouseY < 492) {
 				menuButton.SetFrame(1);
 				menuButton.Draw(screen, 235, 387);
@@ -208,31 +191,18 @@ namespace Tmpl8
 			}
 		}
 		else {
-			//float player.x = player.x;
-			//float player.y = player.y;
 			screen->Clear((14 << 16) + (7 << 8) + 27);
 			background.DrawScaled(0 - camera.x, (512 - scaleHeight + camera.y), scaleWidth, scaleHeight, screen);
+			timerBackground.Draw(screen, 0, 0);
 
 			gameTimer += deltaTime;
-
 			gameTimerMinutes = gameTimer / (60 * 1000);
 			gameTimerSeconds = (gameTimer / 1000) % 60;
 			gameTimerMilliseconds = gameTimer % 1000;
-
-			//212 20
-
-			timerBackground.Draw(screen, 0, 0);
-
 			char buffer[12];
 			sprintf(buffer, "%02d:%02d:%03d", gameTimerMinutes, gameTimerSeconds, gameTimerMilliseconds);
 			std::string timerString(buffer);
-			screen->Print(timerString.c_str(), 10, 10, (71 << 16) + (119 << 8) + 87, 4);
-			printf("%i", mouseY);
-			printf(" %i\n", mouseX);
-
-			//printf("The timer is: %s\n", timerString);
-
-			//screen->Line(test, 0, test, 512, (234 << 16) + (255));			
+			screen->Print(timerString.c_str(), 10, 10, (71 << 16) + (119 << 8) + 87, 4);		
 
 			camera.x = player.x - 400;
 			camera.y = -player.y + 256;
@@ -249,16 +219,9 @@ namespace Tmpl8
 				camera.y = 1088;
 			}
 
-			//printf("%f", camera.x - camera.x);
-			//printf(" %f\n", camera.y - camera.y);
-
-
-			//printf("%i ", mouseDown);
-			//printf("%i\n", mouseUp);
 			if (pauseMenu == false) {
 				if (isGrounded == false) {
 					player.x += player.speedx * deltaTime / 16.5;
-					//printf("speed x%f\n", player.speedx);
 					player.y += player.speedy * deltaTime / 16.5;
 					player.speedy += 0.3 * deltaTime / 16.5;
 					if (player.speedy > 30) {
@@ -273,15 +236,6 @@ namespace Tmpl8
 						auto& sticky = e.getField<ldtk::FieldType::Bool>("Sticky");
 						auto& isSticky = sticky.value();
 						auto& isFinish = finish.value();
-						int color = 0;
-						if (isSticky == 1)
-						{
-							color = (255 << 16) + (153 << 8);
-						}
-						else
-						{
-							color = (255 << 16);
-						}
 						int min_x = ((pos.x * scale) - camera.x);
 						int min_y = ((pos.y * scale - offset) + camera.y);
 						int max_x = (((pos.x + size.x) * scale) - camera.x);
@@ -296,22 +250,33 @@ namespace Tmpl8
 						if (hasCollision)
 						{
 							// 1 = |O max_x -- 2 = O| min_x -- 3 = ō max_y -- 4 = ⍜ min_y
-							//if (floor != -858993460) {
-							//	printf("%i\n", floor);
-							//}
 							if (isFinish) {
+								myFile.open("highscore.txt", std::ios::in);
+								if (myFile.is_open()) {
+									std::string line;
+									while (std::getline(myFile, line)) {
+										highscore = std::stoi(line);
+									}
+									myFile.close();
+								}
+								if (gameTimer < highscore) {
+									highscore = gameTimer;
+									myFile.open("highscore.txt", std::ios::out);
+									if (myFile.is_open()) {
+										myFile << highscore;
+										myFile.close();
+									}
+								}
 								finished = true;
 							}
 							if (floor == 1 || floor == 2)
 							{
 								if (floor == 1) {
-									player.x = max_x + camera.x + playerSprite.GetWidth(); // + player.GetHeight()
+									player.x = max_x + camera.x + playerSprite.GetWidth();
 								}
 								else if (floor == 2) {
-									player.x = min_x + camera.x - playerSprite.GetWidth() - 1; // + player.GetHeight()
+									player.x = min_x + camera.x - playerSprite.GetWidth() - 1;
 								}
-
-
 								player.speedx = -player.speedx;
 								player.speedy = player.speedy;
 								if (isSticky == 1) {
@@ -323,15 +288,14 @@ namespace Tmpl8
 								else {
 									bounce.replay();
 								}
-								color = (255 << 16) + (238 << 8);
 							}
 							else if (floor == 3 || floor == 4)
 							{
 								if (floor == 4) {
-									player.y = min_y - camera.y - playerSprite.GetHeight(); // + player.GetHeight()
+									player.y = min_y - camera.y - playerSprite.GetHeight();
 								}
 								else if (floor == 3) {
-									player.y = max_y - camera.y + playerSprite.GetHeight(); // + player.GetHeight()
+									player.y = max_y - camera.y + playerSprite.GetHeight();
 								}
 								if (isSticky == 1) {
 									isGrounded = true;
@@ -342,23 +306,13 @@ namespace Tmpl8
 								else {
 									bounce.replay();
 								}
-								//bounceCount++;
-								//if (abs(player.speedy) < 3.2 && bounceCount > 8) {
-								//	player.speedy = 0;
-								//	player.speedx = 0;
-								//}
 								player.speedx = player.speedx;
 								player.speedy = -player.speedy * 0.8;
-								color = (255 << 8) + 13;
 							}
 						}
-
-						//screen->Line(min_x, min_y, min_x, max_y, color); //min x
-						//screen->Line(max_x, min_y, max_x, max_y, color); //max x
-						//screen->Line(min_x, min_y, max_x, min_y, color); //min y
-						//screen->Line(min_x, max_y, max_x, max_y, color); //max y
-
-						//screen->Box(min_x, min_y, max_x, max_y, color);
+						if (hitboxes) {
+							screen->Box(min_x, min_y, max_x, max_y, (255 << 16) + (153 << 8));
+						}
 					}
 				}
 				int cx = player.x - camera.x;
@@ -374,23 +328,20 @@ namespace Tmpl8
 							float launchY = arrowY - cy;
 							launchX = launchX / 4.5;
 							launchY = launchY / 4.5;
-							//printf("%f ", launchX);
-							//printf("%f\n", launchY);
 							player.speedx = launchX;
 							player.speedy = launchY;
 							isGrounded = false;
 
 							click = false;
 							mouseDown = false;
-							//bounceCount = 0;
 						}
 					}
 				}
 			}
 			playerSprite.DrawScaled((player.x - (playerSprite.GetWidth() * scale / 4)) - camera.x, (player.y - (playerSprite.GetHeight() * scale / 4)) + camera.y, (8 * scale), (8 * scale), screen);
-			int playercolor = (234 << 16) + (255);
-			//screen->DrawCircle(cx, cy, player.r, playercolor)
-
+			if (hitboxes) {
+				screen->DrawCircle(player.x - camera.x , player.y + camera.y , player.r, (234 << 16) + (255));
+			}
 			if (keyDown == SDL_SCANCODE_ESCAPE) {
 				if (pauseMenu == false) {
 					keyDown = 0;
@@ -404,6 +355,10 @@ namespace Tmpl8
 
 			if (keyDown == SDL_SCANCODE_R) {
 				Init();
+			}
+
+			if (keyDown == SDL_SCANCODE_F5) {
+				hitboxes = true;
 			}
 
 			if (pauseMenu) {
@@ -435,7 +390,10 @@ namespace Tmpl8
 					menuButton.Draw(screen, 235, 261);
 				}
 			}
-
+		}
+		if (click) {
+			click = false;
+			mouseDown = false;
 		}
 	}
 };

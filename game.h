@@ -3,6 +3,8 @@
 #include "LDtkLoader/Project.hpp"
 #include "player.h"
 #include "surface.h"
+#include <fstream>
+#include <strstream>
 
 #include <Audio/Sound.hpp>
 #include <Audio/Device.hpp>
@@ -44,6 +46,10 @@ private:
 	int gameTimerMinutes;
 	int gameTimerSeconds;
 	int gameTimerMilliseconds;
+	int highscoreMinutes;
+	int highscoreSeconds;
+	int highscoreMilliseconds;
+
 
 	CollisionClass collisions;
 	ldtk::Project ldtk_project;
@@ -61,6 +67,8 @@ private:
 	Sprite finishScreen;
 	Sprite timerBackground;
 
+	std::string timerString;
+
 	int backgroundWidth;
 	int backgroundHeight;
 	float scale;
@@ -69,6 +77,7 @@ private:
 	int offset;
 	int playerWidth;
 	int playerHeigth;
+	int highscore;
 
 	bool isGrounded;
 	bool click;
@@ -76,6 +85,10 @@ private:
 	bool pauseMenu;
 	bool controlsMenu;
 	bool finished;
+	bool hitboxes;
+
+	std::fstream myFile;
+
 	Audio::Sound slime{ "assets/Audio/slime2.wav", Audio::Sound::Type::Sound };
 	Audio::Sound bounce{ "assets/Audio/bounce.wav", Audio::Sound::Type::Sound };
 };
