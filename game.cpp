@@ -13,7 +13,6 @@
 
 namespace Tmpl8
 {
-
 	Game::Game()
 		:startButton(new Surface("assets/Menus/Buttons/StartButtons.png"), 2)
 		,quitButton(new Surface("assets/Menus/Buttons/QuitButtons.png"), 2)
@@ -108,7 +107,7 @@ namespace Tmpl8
 				myFile.close();
 			}
 			
-			if (highscore == 100000) {
+			if (highscore == 999999999) {
 				screen->Print("__:__:___", 572, 276, 14795096, 4);
 			}
 			else {
@@ -118,13 +117,8 @@ namespace Tmpl8
 				char bufferMainMenu[20];
 				sprintf(bufferMainMenu, "%02d:%02d:%03d", highscoreMinutes, highscoreSeconds, highscoreMilliseconds);
 				std::string highscoreString(bufferMainMenu);
-				//screen->Print(highscoreString.c_str(), 163, 240, (71 << 16) + (119 << 8) + 87, 4);
 				screen->Print(highscoreString.c_str(), 572, 276, 14795096, 4);
 			}
-			
-			//screen->Print("00:00:000", 572, 276, (255 << 16) + (255 << 8) + 255, 4);
-
-			//middle 680
 
 			if (mouseX > 250 && mouseX < 550 && mouseY > 86 && mouseY < 186) {
 				startButton.SetFrame(1);
@@ -155,7 +149,6 @@ namespace Tmpl8
 				controlsButton.SetFrame(0);
 				controlsButton.Draw(screen, 235, 201);
 			}
-
 			if (mouseX > 250 && mouseX < 550 && mouseY > 326 && mouseY < 426) {
 				quitButton.SetFrame(1);
 				quitButton.Draw(screen, 235, 321);

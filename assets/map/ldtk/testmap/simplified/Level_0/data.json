@@ -551,9 +551,9 @@
 				"iid": "6322b320-c640-11ed-abfa-5d2aaa99676c",
 				"layer": "Entities",
 				"x": 152,
-				"y": 96,
+				"y": 112,
 				"width": 8,
-				"height": 64,
+				"height": 48,
 				"color": 12470831,
 				"customFields": {
 					"Sticky": false,
@@ -579,9 +579,9 @@
 				"iid": "69e5f640-c640-11ed-abfa-3f7dfcfbdbbb",
 				"layer": "Entities",
 				"x": 280,
-				"y": 48,
+				"y": 56,
 				"width": 8,
-				"height": 48,
+				"height": 40,
 				"color": 12470831,
 				"customFields": {
 					"Sticky": false,
@@ -649,9 +649,9 @@
 				"iid": "caaa3f80-c640-11ed-a460-453de6708c15",
 				"layer": "Entities",
 				"x": 160,
-				"y": 96,
+				"y": 112,
 				"width": 8,
-				"height": 24,
+				"height": 8,
 				"color": 12470831,
 				"customFields": {
 					"Sticky": false,
@@ -688,54 +688,12 @@
 			},
 			{
 				"id": "Collision",
-				"iid": "cf699c50-c640-11ed-a460-39577c8ab102",
-				"layer": "Entities",
-				"x": 184,
-				"y": 96,
-				"width": 32,
-				"height": 16,
-				"color": 12470831,
-				"customFields": {
-					"Sticky": false,
-					"Finish": false
-				}
-			},
-			{
-				"id": "Collision",
-				"iid": "e01a1250-c640-11ed-a460-4748d6f01053",
-				"layer": "Entities",
-				"x": 256,
-				"y": 48,
-				"width": 24,
-				"height": 8,
-				"color": 12470831,
-				"customFields": {
-					"Sticky": false,
-					"Finish": false
-				}
-			},
-			{
-				"id": "Collision",
 				"iid": "e138a1b0-c640-11ed-a460-0da50bd707fc",
 				"layer": "Entities",
 				"x": 152,
 				"y": 0,
 				"width": 136,
-				"height": 48,
-				"color": 12470831,
-				"customFields": {
-					"Sticky": false,
-					"Finish": false
-				}
-			},
-			{
-				"id": "Collision",
-				"iid": "e27bd010-c640-11ed-a460-7f0519388f6b",
-				"layer": "Entities",
-				"x": 176,
-				"y": 48,
-				"width": 48,
-				"height": 8,
+				"height": 56,
 				"color": 12470831,
 				"customFields": {
 					"Sticky": false,
@@ -753,34 +711,6 @@
 				"color": 12470831,
 				"customFields": {
 					"Sticky": false,
-					"Finish": false
-				}
-			},
-			{
-				"id": "Collision",
-				"iid": "ed98f770-c640-11ed-a460-c33119b6291c",
-				"layer": "Entities",
-				"x": 224,
-				"y": 48,
-				"width": 32,
-				"height": 8,
-				"color": 12470831,
-				"customFields": {
-					"Sticky": true,
-					"Finish": false
-				}
-			},
-			{
-				"id": "Collision",
-				"iid": "f04cf3e0-c640-11ed-a460-7be5439e9510",
-				"layer": "Entities",
-				"x": 152,
-				"y": 48,
-				"width": 24,
-				"height": 8,
-				"color": 12470831,
-				"customFields": {
-					"Sticky": true,
 					"Finish": false
 				}
 			},
@@ -816,7 +746,7 @@
 				"id": "Collision",
 				"iid": "4932c920-c640-11ed-a460-6914a5676e14",
 				"layer": "Entities",
-				"x": 104,
+				"x": 96,
 				"y": 64,
 				"width": 16,
 				"height": 8,
@@ -830,7 +760,7 @@
 				"id": "Collision",
 				"iid": "4a17aae0-c640-11ed-a460-f55341fef175",
 				"layer": "Entities",
-				"x": 104,
+				"x": 96,
 				"y": 88,
 				"width": 16,
 				"height": 8,
@@ -844,7 +774,7 @@
 				"id": "Collision",
 				"iid": "4b52ea00-c640-11ed-a460-d12698332be4",
 				"layer": "Entities",
-				"x": 104,
+				"x": 96,
 				"y": 72,
 				"width": 8,
 				"height": 16,
@@ -858,7 +788,7 @@
 				"id": "Collision",
 				"iid": "4da601c0-c640-11ed-a460-cf98046fdd2f",
 				"layer": "Entities",
-				"x": 112,
+				"x": 105,
 				"y": 72,
 				"width": 8,
 				"height": 16,
@@ -916,8 +846,22 @@
 				"layer": "Entities",
 				"x": 8,
 				"y": 0,
-				"width": 64,
+				"width": 136,
 				"height": 8,
+				"color": 12470831,
+				"customFields": {
+					"Sticky": false,
+					"Finish": false
+				}
+			},
+			{
+				"id": "Collision",
+				"iid": "1ca5c830-c640-11ed-94d1-8f447b192194",
+				"layer": "Entities",
+				"x": 96,
+				"y": 96,
+				"width": 72,
+				"height": 16,
 				"color": 12470831,
 				"customFields": {
 					"Sticky": false,
