@@ -89,7 +89,7 @@ private:
 
 	std::fstream myFile;
 
-	Audio::Sound slime{ "assets/Audio/slime2.wav", Audio::Sound::Type::Sound };
+	Audio::Sound slime{ "assets/Audio/slime.wav", Audio::Sound::Type::Sound };
 	Audio::Sound bounce{ "assets/Audio/bounce.wav", Audio::Sound::Type::Sound };
 };
 

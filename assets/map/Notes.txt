@@ -1,17 +1,6 @@
-2d cameara:
-vec2 
-cameara doesnt move the lvel does
-
-swapt aa bb - collision
-circle to square
-
-ask for external tile map program
-
-
 Links for tilemap:
 https://egordorichev.itch.io/adve
 
-mapeditor.org - tiled
 
 SIDE COLLISION CHECK
 

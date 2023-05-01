@@ -15,16 +15,16 @@ namespace Tmpl8
 {
 
 	Game::Game()
-		:startButton(new Surface("assets/Menu Buttons/Large Buttons/Large Buttons/StartButtons.png"), 2)
-		,quitButton(new Surface("assets/Menu Buttons/Large Buttons/Large Buttons/QuitButtons.png"), 2)
-		,continueButton(new Surface("assets/Menu Buttons/Large Buttons/Large Buttons/ContinueButtons.png"), 2)
-		,menuButton(new Surface("assets/Menu Buttons/Large Buttons/Large Buttons/MenuButtons.png"), 2)
-		,controlsButton(new Surface("assets/Menu Buttons/Large Buttons/Large Buttons/ControlsButtons.png"), 2)
-		,backButton(new Surface("assets/Menu Buttons/Large Buttons/Large Buttons/BackButtons.png"), 2)
-		,controlMenu(new Surface("assets/Menu Buttons/ControlMenu.png"), 1)
-		,finishScreen(new Surface("assets/Menu Buttons/FinishScreen.png"),1)
-		,timerBackground(new Surface("assets/Menu Buttons/timerBackground.png"), 1)
-		,background(new Surface("map/ldtk/testmap/simplified/Level_0/_composite.png"), 1)
+		:startButton(new Surface("assets/Menus/Buttons/StartButtons.png"), 2)
+		,quitButton(new Surface("assets/Menus/Buttons/QuitButtons.png"), 2)
+		,continueButton(new Surface("assets/Menus/Buttons/ContinueButtons.png"), 2)
+		,menuButton(new Surface("assets/Menus/Buttons/MenuButtons.png"), 2)
+		,controlsButton(new Surface("assets/Menus/Buttons/ControlsButtons.png"), 2)
+		,backButton(new Surface("assets/Menus/Buttons/BackButtons.png"), 2)
+		,controlMenu(new Surface("assets/Menus/ControlMenu.png"), 1)
+		,finishScreen(new Surface("assets/Menus/FinishScreen.png"),1)
+		,timerBackground(new Surface("assets/Menus/timerBackground.png"), 1)
+		,background(new Surface("assets/map/ldtk/testmap/simplified/Level_0/_composite.png"), 1)
 		,playerSprite(new Surface("assets/slime.png"), 1)
 	{
 		backgroundWidth = background.GetWidth();
@@ -46,7 +46,7 @@ namespace Tmpl8
 	// -----------------------------------------------------------
 	void Game::Init()
 	{
-		ldtk_project.loadFromFile("map/ldtk/testmap.ldtk");
+		ldtk_project.loadFromFile("assets/map/ldtk/testmap.ldtk");
 		const auto& world = ldtk_project.getWorld("");
 		const auto& level1 = world.getLevel("Level_0");
 		const auto& entities = level1.getLayer("Entities");
@@ -95,6 +95,37 @@ namespace Tmpl8
 
 		if (startMenu) {
 			screen->Clear((14 << 16) + (7 << 8) + 27);
+
+			screen->Print("HIGH", 572, 216, 14795096, 4);
+			screen->Print("SCORE", 572, 246, 14795096, 4);
+			
+			myFile.open("highscore.txt", std::ios::in);
+			if (myFile.is_open()) {
+				std::string line;
+				while (std::getline(myFile, line)) {
+					highscore = std::stoi(line);
+				}
+				myFile.close();
+			}
+			
+			if (highscore == 100000) {
+				screen->Print("__:__:___", 572, 276, 14795096, 4);
+			}
+			else {
+				highscoreMinutes = highscore / (60 * 1000);
+				highscoreSeconds = (highscore / 1000) % 60;
+				highscoreMilliseconds = highscore % 1000;
+				char bufferMainMenu[20];
+				sprintf(bufferMainMenu, "%02d:%02d:%03d", highscoreMinutes, highscoreSeconds, highscoreMilliseconds);
+				std::string highscoreString(bufferMainMenu);
+				//screen->Print(highscoreString.c_str(), 163, 240, (71 << 16) + (119 << 8) + 87, 4);
+				screen->Print(highscoreString.c_str(), 572, 276, 14795096, 4);
+			}
+			
+			//screen->Print("00:00:000", 572, 276, (255 << 16) + (255 << 8) + 255, 4);
+
+			//middle 680
+
 			if (mouseX > 250 && mouseX < 550 && mouseY > 86 && mouseY < 186) {
 				startButton.SetFrame(1);
 				startButton.Draw(screen, 235, 81);
@@ -163,15 +194,15 @@ namespace Tmpl8
 			highscoreSeconds = (highscore / 1000) % 60;
 			highscoreMilliseconds = highscore % 1000;
 
-			char buffer[16];
-			sprintf(buffer, "%02d:%02d:%03d", highscoreMinutes, highscoreSeconds, highscoreMilliseconds);
-			std::string highscoreTimeString(buffer);
+			char bufferHighscore[16];
+			sprintf(bufferHighscore, "%02d:%02d:%03d", highscoreMinutes, highscoreSeconds, highscoreMilliseconds);
+			std::string highscoreTimeString(bufferHighscore);
 			std::string highscoreString = "Highscore: " + highscoreTimeString;
 			screen->Print(highscoreString.c_str(), 163, 240, (71 << 16) + (119 << 8) + 87, 4);
 
-			char buffer2[12];
-			sprintf(buffer2, "%02d:%02d:%03d", gameTimerMinutes, gameTimerSeconds, gameTimerMilliseconds);
-			std::string timerTimeString(buffer2);
+			char bufferTimer[12];
+			sprintf(bufferTimer, "%02d:%02d:%03d", gameTimerMinutes, gameTimerSeconds, gameTimerMilliseconds);
+			std::string timerTimeString(bufferTimer);
 			std::string timerString = "Time: " + timerTimeString;
 			screen->Print(timerString.c_str(), 223, 280, (71 << 16) + (119 << 8) + 87, 4);
 
@@ -357,7 +388,12 @@ namespace Tmpl8
 				Init();
 			}
 
-			if (keyDown == SDL_SCANCODE_F5) {
+			if (keyDown == SDL_SCANCODE_F5 && hitboxes) {
+				keyDown = 0;
+				hitboxes = false;
+			}
+			else if (keyDown == SDL_SCANCODE_F5 && hitboxes == false) {
+				keyDown = 0;
 				hitboxes = true;
 			}
 
