@@ -24,7 +24,8 @@ namespace Tmpl8
 		,finishScreen(new Surface("assets/Menus/FinishScreen.png"),1)
 		,timerBackground(new Surface("assets/Menus/timerBackground.png"), 1)
 		,background(new Surface("assets/map/ldtk/testmap/simplified/Level_0/_composite.png"), 1)
-		,playerSprite(new Surface("assets/slime.png"), 1)
+		,playerSpriteR(new Surface("assets/slimeR.png"), 1)
+		,playerSpriteL(new Surface("assets/slimeL.png"), 1)
 	{
 		backgroundWidth = background.GetWidth();
 		backgroundHeight = background.GetHeight();
@@ -33,8 +34,8 @@ namespace Tmpl8
 		scaleHeight = backgroundHeight * scale;
 		offset = scale * backgroundHeight - 512;
 
-		playerWidth = playerSprite.GetWidth();
-		playerHeigth = playerSprite.GetHeight();
+		playerWidth = playerSpriteR.GetWidth();
+		playerHeigth = playerSpriteR.GetHeight();
 
 		startMenu = true;
 		hitboxes = false;
@@ -248,8 +249,11 @@ namespace Tmpl8
 					player.x += player.speedx * deltaTime / 16.5;
 					player.y += player.speedy * deltaTime / 16.5;
 					player.speedy += 0.3 * deltaTime / 16.5;
-					if (player.speedy > 30) {
-						player.speedy = 30;
+					if (player.speedy > 25) {
+						player.speedy = 25;
+					}
+					if (player.speedx > 25) {
+						player.speedx = 25;
 					}
 					for (auto& collision : collisions.collision)
 					{
@@ -273,7 +277,6 @@ namespace Tmpl8
 						CollisionCircleAABB(cx, cy, player.r, min_x, min_y, max_x, max_y, &hasCollision, &floor, player.speedx, player.speedy);
 						if (hasCollision)
 						{
-							// 1 = |O max_x -- 2 = O| min_x -- 3 = ō max_y -- 4 = ⍜ min_y
 							if (isFinish) {
 								myFile.open("highscore.txt", std::ios::in);
 								if (myFile.is_open()) {
@@ -296,10 +299,10 @@ namespace Tmpl8
 							if (floor == 1 || floor == 2)
 							{
 								if (floor == 1) {
-									player.x = max_x + camera.x + playerSprite.GetWidth();
+									player.x = max_x + camera.x + playerSpriteR.GetWidth();
 								}
 								else if (floor == 2) {
-									player.x = min_x + camera.x - playerSprite.GetWidth() - 1;
+									player.x = min_x + camera.x - playerSpriteR.GetWidth() - 1;
 								}
 								player.speedx = -player.speedx;
 								player.speedy = player.speedy;
@@ -316,10 +319,10 @@ namespace Tmpl8
 							else if (floor == 3 || floor == 4)
 							{
 								if (floor == 4) {
-									player.y = min_y - camera.y - playerSprite.GetHeight();
+									player.y = min_y - camera.y - playerSpriteR.GetHeight();
 								}
 								else if (floor == 3) {
-									player.y = max_y - camera.y + playerSprite.GetHeight();
+									player.y = max_y - camera.y + playerSpriteR.GetHeight();
 								}
 								if (isSticky == 1) {
 									isGrounded = true;
@@ -362,7 +365,12 @@ namespace Tmpl8
 					}
 				}
 			}
-			playerSprite.DrawScaled((player.x - (playerSprite.GetWidth() * scale / 4)) - camera.x, (player.y - (playerSprite.GetHeight() * scale / 4)) + camera.y, (8 * scale), (8 * scale), screen);
+			if (player.speedx >= 0) {
+				playerSpriteR.DrawScaled((player.x - (playerSpriteR.GetWidth() * scale / 4)) - camera.x, (player.y - (playerSpriteR.GetHeight() * scale / 4)) + camera.y, (8 * scale), (8 * scale), screen);
+			}
+			else {
+				playerSpriteL.DrawScaled((player.x - (playerSpriteL.GetWidth() * scale / 4)) - camera.x, (player.y - (playerSpriteL.GetHeight() * scale / 4)) + camera.y, (8 * scale), (8 * scale), screen);
+			}
 			if (hitboxes) {
 				screen->DrawCircle(player.x - camera.x , player.y + camera.y , player.r, (234 << 16) + (255));
 			}

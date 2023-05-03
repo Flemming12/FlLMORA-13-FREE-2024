@@ -37,56 +37,17 @@ public:
 	}
 private:
 	Surface* screen;
-	int mouseX;
-	int mouseY;
-	int mouseUp;
-	int mouseDown;
-	int keyDown;
-	int gameTimer;
-	int gameTimerMinutes;
-	int gameTimerSeconds;
-	int gameTimerMilliseconds;
-	int highscoreMinutes;
-	int highscoreSeconds;
-	int highscoreMilliseconds;
-
+	int mouseX, mouseY, mouseUp, mouseDown, keyDown, gameTimer, gameTimerMinutes, gameTimerSeconds, gameTimerMilliseconds, highscoreMinutes, highscoreSeconds, highscoreMilliseconds, scaleWidth, scaleHeight, offset, playerWidth, playerHeigth, highscore, backgroundWidth, backgroundHeight;
+	bool isGrounded, click, startMenu, pauseMenu, controlsMenu, finished, hitboxes;
+	float scale;
+	Sprite startButton, quitButton, background, continueButton, menuButton, controlsButton, backButton, controlMenu, finishScreen, timerBackground, playerSpriteR, playerSpriteL;
 
 	CollisionClass collisions;
 	ldtk::Project ldtk_project;
 	Player player;
 	Camera camera;
-	Sprite startButton;
-	Sprite quitButton;
-	Sprite background;
-	Sprite playerSprite;
-	Sprite continueButton;
-	Sprite menuButton;
-	Sprite controlsButton;
-	Sprite backButton;
-	Sprite controlMenu;
-	Sprite finishScreen;
-	Sprite timerBackground;
 
 	std::string timerString;
-
-	int backgroundWidth;
-	int backgroundHeight;
-	float scale;
-	int scaleWidth;
-	int scaleHeight;
-	int offset;
-	int playerWidth;
-	int playerHeigth;
-	int highscore;
-
-	bool isGrounded;
-	bool click;
-	bool startMenu;
-	bool pauseMenu;
-	bool controlsMenu;
-	bool finished;
-	bool hitboxes;
-
 	std::fstream myFile;
 
 	Audio::Sound slime{ "assets/Audio/slime.wav", Audio::Sound::Type::Sound };
