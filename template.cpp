@@ -302,8 +302,8 @@ int main( int argc, char **argv )
 {  
 	SDL_SetHintWithPriority(SDL_HINT_RENDER_VSYNC, "0", SDL_HINT_OVERRIDE);
 #ifdef _MSC_VER
-    if (!redirectIO())
-        return 1;
+    /*if (!redirectIO())
+        return 1;*/
 #endif
 	printf( "application started.\n" );
 	SDL_Init( SDL_INIT_VIDEO );

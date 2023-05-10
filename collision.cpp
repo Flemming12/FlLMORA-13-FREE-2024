@@ -2,7 +2,6 @@
 #include <cmath>
 #include <algorithm>
 #include "collision.h"
-#include <cstdio> //printf
 
 bool CollisionCircleAABB(float cx, float cy, float cr, float min_x, float min_y, float max_x, float max_y, bool *hasCollision, int *floor, float speedX, float speedY) {
     if (cx > min_x && cx < max_x && cy > min_y && cy < max_y) {

@@ -23,14 +23,14 @@ public:
 	void Init();
 	void Shutdown();
 	void Tick( float deltaTime );
-	void MouseUp(int button) { mouseUp = button;/* implement if you want to detect mouse button presses */ }
-	void MouseDown(int button) { mouseDown = button;/* implement if you want to detect mouse button presses */ }
+	void MouseUp(int button) { mouseUp = button;}
+	void MouseDown(int button) { mouseDown = button;}
 	void MouseMove(int x, int y) 
 	{ 
 		mouseX = x;
 		mouseY = y;
 	}
-	void KeyUp( int key ) { /* implement if you want to handle keys */ }
+	void KeyUp( int key ) { }
 	void KeyDown( int key ) 
 	{ 
 		keyDown = key;
